@@ -24,6 +24,15 @@ public class HomeActivity extends Activity {
 //        TagService tagService = new TagService(this);
 //        tagService.deleteAllTags();
 
+        Button tagPhotosButton = (Button) findViewById(R.id.tag_photos_button);
+        tagPhotosButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) {
+                Log.i(HomeActivity.APP_NAME, "Clicked on tag photos.");
+                Intent i = new Intent(view.getContext(), ManagePhotos.class);
+                startActivity(i);
+            }
+        });
+
         Button manageTagsButton = (Button) findViewById(R.id.manage_tags_button);
         manageTagsButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {

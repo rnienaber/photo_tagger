@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import com.therandomist.photo_tagger.adapter.ManageCategoriesAdapter;
+import com.therandomist.photo_tagger.adapter.CategoriesListAdapter;
 import com.therandomist.photo_tagger.model.Category;
 import com.therandomist.photo_tagger.model.Tag;
 import com.therandomist.photo_tagger.service.CategoryService;
@@ -19,7 +19,7 @@ import java.util.Map;
 public class ManageCategoriesAndTagsActivity extends ExpandableListActivity {
     private static final String KEY1 = "KEY1";
 
-    private ManageCategoriesAdapter adapter;
+    private CategoriesListAdapter adapter;
     private CategoryService categoryService;
     private List<Category> categories;
 
@@ -36,7 +36,7 @@ public class ManageCategoriesAndTagsActivity extends ExpandableListActivity {
 
         loadCategories();
 
-        adapter = new ManageCategoriesAdapter(
+        adapter = new CategoriesListAdapter(
                 this,
                 groupData,
                 R.layout.tag_group,         //group layout

@@ -22,6 +22,13 @@ public class TagService {
         return tag;
     }
 
+    public Tag getTag(String name){
+        database.open();
+        Tag tag = database.getTag(name);
+        database.close();
+        return tag;
+    }
+
     public List<Tag> getAllTags(){
         database.open();
         List<Tag> result = database.getAllTags();

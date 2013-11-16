@@ -27,6 +27,12 @@
                 android:name=".ManageTagsActivity"
                 android:label="Manage Tags"
                 android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ManagePhotos"
+                android:label="Photos"/>
+        <activity
+                android:name=".PhotoActivity"
+                android:label="Photo"/>
 
     </application>
 </manifest> 

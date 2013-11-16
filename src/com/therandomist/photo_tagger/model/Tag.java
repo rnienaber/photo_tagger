@@ -1,5 +1,7 @@
 package com.therandomist.photo_tagger.model;
 
+import java.util.List;
+
 public class Tag {
 
     Long id;
@@ -38,5 +40,19 @@ public class Tag {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public static String getString(List<Tag> tags){
+        String result = "";
+
+        for(Tag tag : tags){
+            if(result.length() == 0){
+                result = tag.getName();
+            }else{
+                result += ", "+tag.getName();
+            }
+        }
+
+        return result;
     }
 }

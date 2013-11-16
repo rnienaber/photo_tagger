@@ -13,32 +13,32 @@ import com.therandomist.photo_tagger.model.Tag;
 import java.util.List;
 import java.util.Map;
 
-public class ManageCategoriesAdapter extends SimpleExpandableListAdapter {
+public class CategoriesListAdapter extends SimpleExpandableListAdapter {
 
     Context context;
     List<? extends List<Tag>> childData;
 
-    public ManageCategoriesAdapter(Context context,
-                                         List<? extends Map<String, ?>> groupData,
-                                         int groupLayout,
-                                         String[] groupFrom,
-                                         int[] groupTo,
-                                         List<? extends List<? extends Map<String, ?>>> childData,
-                                         int childLayout,
-                                         String[] childFrom,
-                                         int[] childTo) {
+    public CategoriesListAdapter(Context context,
+                                 List<? extends Map<String, ?>> groupData,
+                                 int groupLayout,
+                                 String[] groupFrom,
+                                 int[] groupTo,
+                                 List<? extends List<? extends Map<String, ?>>> childData,
+                                 int childLayout,
+                                 String[] childFrom,
+                                 int[] childTo) {
 
         super(context, groupData, groupLayout, groupFrom, groupTo, childData, childLayout, childFrom, childTo);
         this.context = context;
     }
 
-    public ManageCategoriesAdapter(Context context,
-                                         List<? extends Map<String, ?>> groupData,
-                                         int groupLayout,
-                                         String[] groupFrom,
-                                         int[] groupTo,
-                                         List<? extends List<Tag>> childData,
-                                         int childLayout) {
+    public CategoriesListAdapter(Context context,
+                                 List<? extends Map<String, ?>> groupData,
+                                 int groupLayout,
+                                 String[] groupFrom,
+                                 int[] groupTo,
+                                 List<? extends List<Tag>> childData,
+                                 int childLayout) {
 
         super(context, groupData, groupLayout, groupFrom, groupTo, null, childLayout, null, null);
         this.childData = childData;

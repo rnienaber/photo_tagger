@@ -56,6 +56,17 @@ public class TagDBAdapter {
         return tag;
     }
 
+    public Tag getTag(String name){
+        Cursor cursor = fetchTag(name);
+        Tag tag = null;
+
+        if(cursor != null){
+            tag = getTag(cursor);
+            cursor.close();
+        }
+        return tag;
+    }
+
     public List<Tag> getAllTags(){
 
         Log.i(HomeActivity.APP_NAME, "getting all tags");
@@ -106,6 +117,19 @@ public class TagDBAdapter {
                         KEY_NAME,
                         KEY_CATEGORY_ID
                 }, KEY_ROW_ID + "=" + tagId, null, null, null, null, null);
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+    }
+
+    protected Cursor fetchTag(String name) throws SQLException {
+        Cursor mCursor =
+                db.query(true, DATABASE_TABLE, new String[] {
+                        KEY_ROW_ID,
+                        KEY_NAME,
+                        KEY_CATEGORY_ID
+                }, KEY_NAME + "=" + name, null, null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
         }

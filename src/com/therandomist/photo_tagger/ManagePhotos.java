@@ -76,14 +76,17 @@ public class ManagePhotos extends ExpandableListActivity {
         childData.clear();
 
         for(File file : files){
-            Map<String, String> parentMap = new HashMap<String, String>();
-            groupData.add(parentMap);
-            parentMap.put(KEY1, file.getName());
+            if(file.isFile()){
 
-            List<File> children = Arrays.asList(file.listFiles());
-            Collections.sort(children);
+            }else{
+                Map<String, String> parentMap = new HashMap<String, String>();
+                groupData.add(parentMap);
+                parentMap.put(KEY1, file.getName());
 
-            childData.add(children);
+                List<File> children = Arrays.asList(file.listFiles());
+                Collections.sort(children);
+                childData.add(children);
+            }
         }
     }
 

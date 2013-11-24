@@ -59,6 +59,9 @@ public class GPSLocationDBAdapter {
     }
 
     public GPSLocation getGPSLocation(String name){
+        if(name  == null || name == "")
+            return null;
+
         Cursor cursor = fetchGPSLocation(name);
         GPSLocation GPSLocation = null;
 

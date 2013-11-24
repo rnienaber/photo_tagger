@@ -19,6 +19,7 @@ public class DBAdapter {
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(CategoryDBAdapter.DATABASE_CREATE);
             db.execSQL(TagDBAdapter.DATABASE_CREATE);
+            db.execSQL(PhotoDBAdapter.DATABASE_CREATE);
         }
 
         @Override
@@ -28,6 +29,7 @@ public class DBAdapter {
 
             db.execSQL("DROP TABLE IF EXISTS "+ CategoryDBAdapter.DATABASE_TABLE);
             db.execSQL("DROP TABLE IF EXISTS "+ TagDBAdapter.DATABASE_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS "+ PhotoDBAdapter.DATABASE_TABLE);
 
             onCreate(db);
         }

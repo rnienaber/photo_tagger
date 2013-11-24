@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import com.therandomist.photo_tagger.service.CategoryService;
+import com.therandomist.photo_tagger.service.PhotoService;
 import com.therandomist.photo_tagger.service.TagService;
 
 public class HomeActivity extends Activity {
@@ -21,8 +22,8 @@ public class HomeActivity extends Activity {
 //        CategoryService service = new CategoryService(this);
 //        service.deleteAllCategories();
 
-//        TagService tagService = new TagService(this);
-//        tagService.deleteAllTags();
+//        PhotoService photoService = new PhotoService(this);
+//        photoService.deleteAllPhotos();
 
         Button tagPhotosButton = (Button) findViewById(R.id.tag_photos_button);
         tagPhotosButton.setOnClickListener(new View.OnClickListener(){

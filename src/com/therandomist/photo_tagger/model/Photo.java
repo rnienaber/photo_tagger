@@ -1,5 +1,7 @@
 package com.therandomist.photo_tagger.model;
 
+import com.therandomist.photo_tagger.service.FileService;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +37,14 @@ public class Photo {
         this.other = other;
     }
 
+    public Photo(){
+    }
+
+    public void setPath(String path){
+        folder = FileService.getFolder(path);
+        filename = FileService.getFilename(path);
+    }
+
     public String getFilename() {
         return filename;
     }
@@ -44,11 +54,11 @@ public class Photo {
     }
 
     public Double getLatitude() {
-        return location.getLatitude();
+        return location != null ? location.getLatitude() : new Double(0);
     }
 
     public Double getLongitude() {
-        return location.getLongitude();
+        return location != null ? location.getLongitude() : new Double(0);
     }
 
     public String getPeople(){
@@ -56,14 +66,18 @@ public class Photo {
     }
 
     public String getKeywords(){
-
         List<Tag> allKeywords = new ArrayList<Tag>();
-        allKeywords.addAll(keywords);
-        allKeywords.addAll(other);
+
+        if(keywords != null){
+            allKeywords.addAll(keywords);
+        }
+        if(other != null){
+            allKeywords.addAll(other);
+        }
 
         String keywordString = Tag.getString(allKeywords);
 
-        if(location.getName() != null && location.getName() != ""){
+        if(location != null && location.getName() != null && location.getName() != ""){
             keywordString += ", "+location.getName();
         }
 
@@ -74,4 +88,11 @@ public class Photo {
         return Tag.getString(printing);
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
 }

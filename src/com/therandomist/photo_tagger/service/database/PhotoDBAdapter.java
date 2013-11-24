@@ -3,6 +3,7 @@ package com.therandomist.photo_tagger.service.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -11,6 +12,7 @@ import com.therandomist.photo_tagger.model.Category;
 import com.therandomist.photo_tagger.model.GPSLocation;
 import com.therandomist.photo_tagger.model.Photo;
 import com.therandomist.photo_tagger.model.Tag;
+import com.therandomist.photo_tagger.service.FileService;
 
 import java.security.spec.RSAOtherPrimeInfo;
 import java.util.ArrayList;
@@ -31,12 +33,12 @@ public class PhotoDBAdapter {
 
     public static final String DATABASE_CREATE = "create table " + DATABASE_TABLE + " (_id integer primary key autoincrement, "
             + " filename text not null,"
-            + " folder text not null,"
-            + " latitude real not null, "
-            + " longitude real not null, "
-            + " people text not null,"
-            + " keywords text not null,"
-            + " printing text not null); ";
+            + " folder text,"
+            + " latitude real, "
+            + " longitude real, "
+            + " people text,"
+            + " keywords text,"
+            + " printing text); ";
 
     private DBAdapter.DatabaseHelper dbHelper;
     private SQLiteDatabase db;
@@ -73,6 +75,17 @@ public class PhotoDBAdapter {
         return photo;
     }
 
+    public Photo getPhoto(String path){
+        Cursor cursor = fetchPhoto(path);
+        Photo photo = null;
+
+        if(cursor != null){
+            photo = getPhoto(cursor);
+            cursor.close();
+        }
+        return photo;
+    }
+
     public List<Photo> getAllPhotos(){
 
         Log.i(HomeActivity.APP_NAME, "getting all photos");
@@ -91,6 +104,12 @@ public class PhotoDBAdapter {
     }
 
     protected Photo getPhoto(Cursor cursor){
+        try{
+            cursor.getLong(cursor.getColumnIndex(KEY_ROW_ID));
+        }catch(CursorIndexOutOfBoundsException cioobe){
+            Log.i(HomeActivity.APP_NAME, "There is no photo to return");
+            return null;
+        }
 
         Long id = cursor.getLong(cursor.getColumnIndex(KEY_ROW_ID));
 
@@ -130,14 +149,18 @@ public class PhotoDBAdapter {
         String[] nameList = names.split(",");
         List<Tag> tags = new ArrayList<Tag>();
 
-        for(String name : nameList){
-            tags.add(getTag(name));
+        if(nameList.length > 0){
+            for(String name : nameList){
+                tags.add(getTag(name));
+            }
         }
-
         return tags;
     }
 
     private Tag getTag(String name){
+        if(name == null || name == "")
+            return null;
+
         return tagDBAdapter.getTag(name);
     }
 
@@ -163,6 +186,34 @@ public class PhotoDBAdapter {
         return mCursor;
     }
 
+    protected Cursor fetchPhoto(String path) throws SQLException {
+
+        Log.i(HomeActivity.APP_NAME, "Trying to fetch photo: "+path);
+
+        String folder = FileService.getFolder(path);
+        String filename = FileService.getFilename(path);
+
+        String where = KEY_FOLDER + "='" + folder + "' AND " + KEY_FILENAME + "='" +filename +"'";
+        Log.i(HomeActivity.APP_NAME, "where: "+where);
+
+        Cursor mCursor =
+                db.query(true, DATABASE_TABLE, new String[] {
+                        KEY_ROW_ID,
+                        KEY_FILENAME,
+                        KEY_FOLDER,
+                        KEY_LATITUDE,
+                        KEY_LONGITUDE,
+                        KEY_PEOPLE,
+                        KEY_KEYWORDS,
+                        KEY_PRINTING
+                }, where, null, null, null, null, null);
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+
+        return mCursor;
+    }
+
     protected Cursor fetchAllPhotos() throws SQLException {
         Cursor mCursor =
                 db.query(true, DATABASE_TABLE, new String[] {
@@ -182,7 +233,7 @@ public class PhotoDBAdapter {
     }
 
     public long addPhoto(Photo photo) {
-        Log.i(HomeActivity.APP_NAME, "adding photo: " + photo.getFilename());
+        Log.i(HomeActivity.APP_NAME + "/PhotoDBAdapter", "Adding photo: " + photo.getFilename());
         ContentValues values = new ContentValues();
 
         values.put(KEY_FILENAME, photo.getFilename());

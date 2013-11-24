@@ -45,14 +45,17 @@ public class Tag {
     public static String getString(List<Tag> tags){
         String result = "";
 
-        for(Tag tag : tags){
-            if(result.length() == 0){
-                result = tag.getName();
-            }else{
-                result += ", "+tag.getName();
+        if(tags != null){
+            for(Tag tag : tags){
+                if (tag != null){
+                    if(result.length() == 0){
+                        result = tag.getName();
+                    }else{
+                        result += ", "+tag.getName();
+                    }
+                }
             }
         }
-
         return result;
     }
 }

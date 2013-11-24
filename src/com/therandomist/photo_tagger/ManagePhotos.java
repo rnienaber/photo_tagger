@@ -18,7 +18,7 @@ import java.util.*;
 
 public class ManagePhotos extends ExpandableListActivity {
     private static final String KEY1 = "KEY1";
-    private static final String ROOT = "/mnt/sdcard/photos";
+
 
     private FileListAdapter adapter;
     private FileService fileService;
@@ -65,7 +65,7 @@ public class ManagePhotos extends ExpandableListActivity {
         if(currentPath != ""){
             return currentPath;
         }else{
-            return ROOT;
+            return FileService.ROOT;
         }
     }
 

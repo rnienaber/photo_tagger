@@ -1,15 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+    <TextView
+            android:id="@+id/photo_file_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="3sp"
+            android:textSize="11dp" />
 
     <ImageView
             android:id="@+id/photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="6sp" />
+            android:paddingLeft="3sp"
+            android:paddingRight="3sp"
+            android:layout_below="@id/photo_file_name"/>
 
-</LinearLayout>
+    <TextView
+            android:id="@+id/people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="3sp"
+            android:textSize="14dp"
+            android:text="@string/people"
+            android:layout_below="@id/photo"/>
+
+    <TextView
+            android:id="@+id/people_tags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="3sp"
+            android:textSize="11dp"
+            android:layout_below="@id/people"/>
+
+</RelativeLayout>

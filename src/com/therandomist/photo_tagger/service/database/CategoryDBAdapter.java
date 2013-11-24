@@ -97,7 +97,7 @@ public class CategoryDBAdapter {
                 db.query(true, DATABASE_TABLE, new String[] {
                         KEY_ROW_ID,
                         KEY_NAME
-                }, null, null, null, null, KEY_NAME, null);
+                }, null, null, null, null, KEY_ROW_ID, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
         }

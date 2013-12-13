@@ -34,5 +34,9 @@
                 android:name=".PhotoActivity"
                 android:label="Photo"/>
 
+        <activity
+                android:name=".PhotoTagListActivity"
+                android:label="Photo Tags"/>
+
     </application>
 </manifest> 

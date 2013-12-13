@@ -58,6 +58,16 @@ public class PhotoService {
         }
     }
 
+    public void savePhoto(Photo photo){
+        if(photo.getId() != null){
+            database.open();
+            database.updatePhoto(photo);
+            database.close();
+        }else{
+            addPhoto(photo);
+        }
+    }
+
     public void deleteAllPhotos(){
         database.open();
         database.deleteAllPhotos();

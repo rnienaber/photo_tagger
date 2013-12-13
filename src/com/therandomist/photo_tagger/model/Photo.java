@@ -61,8 +61,22 @@ public class Photo {
         return location != null ? location.getLongitude() : new Double(0);
     }
 
+    public boolean hasTag(Tag tag){
+        return people.contains(tag) || keywords.contains(tag) || printing.contains(tag);
+    }
+
     public String getPeople(){
         return Tag.getString(people);
+    }
+
+    public void addPeople(Tag person){
+        if(!people.contains(person)){
+            people.add(person);
+        }
+    }
+
+    public void removePeople(Tag person){
+        people.remove(person);
     }
 
     public String getKeywords(){

@@ -57,6 +57,7 @@ public class TagDBAdapter {
     }
 
     public Tag getTag(String name){
+        name = name.trim();
         Cursor cursor = fetchTag(name);
         Tag tag = null;
 
@@ -129,7 +130,7 @@ public class TagDBAdapter {
                         KEY_ROW_ID,
                         KEY_NAME,
                         KEY_CATEGORY_ID
-                }, KEY_NAME + "=" + name, null, null, null, null, null);
+                }, KEY_NAME + "='" + name+"'", null, null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
         }

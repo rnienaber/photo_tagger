@@ -161,7 +161,10 @@ public class PhotoDBAdapter {
         if(name == null || name == "")
             return null;
 
-        return tagDBAdapter.getTag(name);
+        tagDBAdapter.open();
+        Tag tag = tagDBAdapter.getTag(name);
+        tagDBAdapter.close();
+        return tag;
     }
 
     private GPSLocation getGPSLocation(String name){
@@ -245,6 +248,19 @@ public class PhotoDBAdapter {
         values.put(KEY_PRINTING, photo.getPrinting());
 
         return db.insert(DATABASE_TABLE, null, values);
+    }
+
+    public boolean updatePhoto(Photo photo){
+        Log.i(HomeActivity.APP_NAME + "/PhotoDBAdapter", "Saving photo: " + photo.getFilename());
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_LATITUDE, photo.getLatitude());
+        values.put(KEY_LONGITUDE, photo.getLongitude());
+        values.put(KEY_PEOPLE, photo.getPeople());
+        values.put(KEY_KEYWORDS, photo.getKeywords());
+        values.put(KEY_PRINTING, photo.getPrinting());
+
+        return db.update(DATABASE_TABLE, values, KEY_ROW_ID + "=" + photo.getId(), null) > 0;
     }
 
     public void deleteAllPhotos(){

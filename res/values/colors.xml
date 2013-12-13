@@ -1,0 +1,26 @@
+<resources>
+
+    <color name="button_regular">#01A2A6</color>
+    <color name="button_focussed">#29D9C2</color>
+    <color name="button_pressed">#FFFFA6</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Tom & Lela -->
+    <color name="pale_purple">#C85BEB</color>
+    <color name="blue">#05B0A9</color>
+    <color name="red">#C90337</color>
+    <color name="orange">#FF4A35</color>
+    <color name="beige">#EBAF64</color>
+    <color name="yellow">#FFF691</color>
+    <color name="pale_green">#8DEB3E</color>
+
+    <!-- friends and foes -->
+    <color name="nearly_black">#2F2933</color>
+    <color name="dark_blue">#01A2A6</color>
+    <color name="light_blue">#29D9C2</color>
+    <color name="green">#BDF271</color>
+    <color name="pale">#FFFFA6</color>
+
+</resources>

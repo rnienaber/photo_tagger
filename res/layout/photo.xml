@@ -31,11 +31,20 @@
             android:layout_below="@id/photo"/>
 
     <TextView
-            android:id="@+id/people_tags"
+            android:id="@+id/people_tags_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="3sp"
             android:textSize="11dp"
             android:layout_below="@id/people"/>
+
+    <Button
+            android:id="@+id/people_tags_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@id/people_tags_text"
+            android:text="@string/people"/>
+
 
 </RelativeLayout>

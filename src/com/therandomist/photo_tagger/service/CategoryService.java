@@ -28,6 +28,17 @@ public class CategoryService {
         return category;
     }
 
+    public Category getCategory(String name){
+        database.open();
+        Category category = database.getCategory(name);
+        database.close();
+
+        List<Tag> tags = new TagService(context).getAllTagsForCategory(category);
+        category.setTags(tags);
+
+        return category;
+    }
+
     public List<Category> getAllCategories(){
         database.open();
         List<Category> categories = database.getAllCategories();

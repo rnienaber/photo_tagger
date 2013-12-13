@@ -9,4 +9,5 @@
     <string name="add_tag">Add tag</string>
     <string name="category_label">Category</string>
     <string name="people">People</string>
+    <string name="tags">Tags</string>
 </resources>

@@ -54,6 +54,18 @@ public class CategoryDBAdapter {
         return category;
     }
 
+    public Category getCategory(String name){
+        Cursor cursor = fetchCategory(name);
+        Category category = null;
+
+        if(cursor != null){
+            category = getCategory(cursor);
+            cursor.close();
+        }
+
+        return category;
+    }
+
     public List<Category> getAllCategories(){
 
         Log.i(HomeActivity.APP_NAME, "getting all categories");
@@ -85,6 +97,19 @@ public class CategoryDBAdapter {
                         KEY_ROW_ID,
                         KEY_NAME
                 }, KEY_ROW_ID + "=" + categoryId, null,
+                        null, null, null, null);
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+    }
+
+    protected Cursor fetchCategory(String name) throws SQLException {
+        Cursor mCursor =
+                db.query(true, DATABASE_TABLE, new String[] {
+                        KEY_ROW_ID,
+                        KEY_NAME
+                }, KEY_NAME + "='" + name + "' COLLATE NOCASE", null,
                         null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();

@@ -54,6 +54,12 @@ public class PhotoActivity extends Activity {
             photoNameView.setText(photoPath.replace(FileService.ROOT+"/", ""));
         }
 
+        loadPeopleTags();
+        loadPrintingTags();
+        loadKeywordTags();
+    }
+    
+    public void loadPeopleTags(){
         TextView peopleTagsView = (TextView) findViewById(R.id.people_tags_text);
         if(peopleTagsView != null){
             peopleTagsView.setText(photo.getPeople());
@@ -65,6 +71,44 @@ public class PhotoActivity extends Activity {
                 Log.i(HomeActivity.APP_NAME, "Clicked on add tags to photo.");
                 Intent i = new Intent(view.getContext(), PhotoTagListActivity.class);
                 i.putExtra("categoryName", "people");
+                i.putExtra("photoPath", photoPath);
+                startActivity(i);
+
+            }
+        });    
+    }
+
+    public void loadPrintingTags(){
+        TextView printingTagsView = (TextView) findViewById(R.id.printing_tags_text);
+        if(printingTagsView != null){
+            printingTagsView.setText(photo.getPrinting());
+        }
+
+        Button printingTagsButton = (Button) findViewById(R.id.printing_tags_button);
+        printingTagsButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) {
+                Log.i(HomeActivity.APP_NAME, "Clicked on add tags to photo.");
+                Intent i = new Intent(view.getContext(), PhotoTagListActivity.class);
+                i.putExtra("categoryName", "printing");
+                i.putExtra("photoPath", photoPath);
+                startActivity(i);
+
+            }
+        });
+    }
+
+    public void loadKeywordTags(){
+        TextView keywordTagsView = (TextView) findViewById(R.id.keyword_tags_text);
+        if(keywordTagsView != null){
+            keywordTagsView.setText(photo.getKeywords());
+        }
+
+        Button keywordTagsButton = (Button) findViewById(R.id.keyword_tags_button);
+        keywordTagsButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) {
+                Log.i(HomeActivity.APP_NAME, "Clicked on add tags to photo.");
+                Intent i = new Intent(view.getContext(), PhotoTagListActivity.class);
+                i.putExtra("categoryName", "keywords");
                 i.putExtra("photoPath", photoPath);
                 startActivity(i);
 

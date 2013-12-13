@@ -10,4 +10,6 @@
     <string name="category_label">Category</string>
     <string name="people">People</string>
     <string name="tags">Tags</string>
+    <string name="printing">Printing</string>
+    <string name="keywords">Keywords</string>
 </resources>

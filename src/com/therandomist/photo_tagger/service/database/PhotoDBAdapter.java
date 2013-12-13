@@ -124,23 +124,9 @@ public class PhotoDBAdapter {
 
         List<Tag> people = convertNamesToTag(peopleString);
         List<Tag> printing = convertNamesToTag(printingString);
+        List<Tag> keywords = convertNamesToTag(keywordsString);
 
-        List<Tag> keywords = new ArrayList<Tag>();
-        List<Tag> other = new ArrayList<Tag>();
-
-        String[] keywordList = keywordsString.split(",");
-        for(String keyword : keywordList){
-            Tag tag = getTag(keyword);
-            if(tag == null){
-                gspLocation = getGPSLocation(keyword);
-            }else if(tag.getCategory().getName().toLowerCase() == "keywords"){
-                keywords.add(tag);
-            }else{
-                other.add(tag);
-            }
-        }
-
-        return new Photo(id, filename, folder, gspLocation, people, keywords, printing, other);
+        return new Photo(id, filename, folder, gspLocation, people, keywords, printing);
     }
 
     private List<Tag> convertNamesToTag(String names){
@@ -156,7 +142,7 @@ public class PhotoDBAdapter {
     }
 
     private Tag getTag(String name){
-        if(name == null || name == "")
+        if(name == null || name.equals(""))
             return null;
 
         tagDBAdapter.open();

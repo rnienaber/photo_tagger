@@ -16,12 +16,6 @@ public class HomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
-//        CategoryService service = new CategoryService(this);
-//        service.deleteAllCategories();
-
-//        PhotoService photoService = new PhotoService(this);
-//        photoService.deleteAllPhotos();
-
         Button tagPhotosButton = (Button) findViewById(R.id.tag_photos_button);
         tagPhotosButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {

@@ -2,7 +2,6 @@ package com.therandomist.photo_tagger.model;
 
 import com.therandomist.photo_tagger.service.FileService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Photo {
@@ -14,9 +13,8 @@ public class Photo {
     List<Tag> people;
     List<Tag> keywords;
     List<Tag> printing;
-    List<Tag> other;
 
-    public Photo(Long id, String filename, String folder, GPSLocation location, List<Tag> people, List<Tag> keywords, List<Tag> printing, List<Tag> other) {
+    public Photo(Long id, String filename, String folder, GPSLocation location, List<Tag> people, List<Tag> keywords, List<Tag> printing) {
         this.id = id;
         this.filename = filename;
         this.folder = folder;
@@ -24,17 +22,15 @@ public class Photo {
         this.people = people;
         this.keywords = keywords;
         this.printing = printing;
-        this.other = other;
     }
 
-    public Photo(String filename, String folder, GPSLocation location, List<Tag> people, List<Tag> keywords, List<Tag> printing, List<Tag> other) {
+    public Photo(String filename, String folder, GPSLocation location, List<Tag> people, List<Tag> keywords, List<Tag> printing) {
         this.filename = filename;
         this.folder = folder;
         this.location = location;
         this.people = people;
         this.keywords = keywords;
         this.printing = printing;
-        this.other = other;
     }
 
     public Photo(){
@@ -80,26 +76,44 @@ public class Photo {
     }
 
     public String getKeywords(){
-        List<Tag> allKeywords = new ArrayList<Tag>();
-
-        if(keywords != null){
-            allKeywords.addAll(keywords);
-        }
-        if(other != null){
-            allKeywords.addAll(other);
-        }
-
-        String keywordString = Tag.getString(allKeywords);
-
-        if(location != null && location.getName() != null && location.getName() != ""){
-            keywordString += ", "+location.getName();
-        }
-
-        return keywordString;
+        return Tag.getString(keywords);
+//        List<Tag> allKeywords = new ArrayList<Tag>();
+//
+//        if(keywords != null){
+//            allKeywords.addAll(keywords);
+//        }
+//
+//        String keywordString = Tag.getString(allKeywords);
+//
+////        if(location != null && location.getName() != null && location.getName() != ""){
+////            keywordString += ", "+location.getName();
+////        }
+//
+//        return keywordString;
     }
 
     public String getPrinting(){
         return Tag.getString(printing);
+    }
+
+    public void addPrintingTag(Tag tag){
+        if(!printing.contains(tag)){
+            printing.add(tag);
+        }
+    }
+
+    public void removePrintingTag(Tag tag){
+        printing.remove(tag);
+    }
+
+    public void addKeywordTag(Tag tag){
+        if(!keywords.contains(tag)){
+            keywords.add(tag);
+        }
+    }
+
+    public void removeKeywordTag(Tag tag){
+        keywords.remove(tag);
     }
 
     public void setId(Long id) {

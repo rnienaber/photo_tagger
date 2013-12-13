@@ -55,7 +55,7 @@ public class CategoryDBAdapter {
     }
 
     public Category getCategory(String name){
-        Cursor cursor = fetchCategory(name);
+        Cursor cursor = fetchCategory(name.trim());
         Category category = null;
 
         if(cursor != null){

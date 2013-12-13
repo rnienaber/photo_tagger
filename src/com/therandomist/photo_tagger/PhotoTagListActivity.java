@@ -68,10 +68,26 @@ public class PhotoTagListActivity extends ListActivity {
         super.onListItemClick(l, view, position, id);
         Tag tag = adapter.getItem(position);
 
-        if(photo.hasTag(tag)){
-            photo.removePeople(tag);
-        }else{
-            photo.addPeople(tag);
+        if(categoryName.equalsIgnoreCase("people")){
+            if(photo.hasTag(tag)){
+                photo.removePeople(tag);
+            }else{
+                photo.addPeople(tag);
+            }
+        }
+        else if(categoryName.equalsIgnoreCase("printing")){
+            if(photo.hasTag(tag)){
+                photo.removePrintingTag(tag);
+            }else{
+                photo.addPrintingTag(tag);
+            }
+        }
+        else if(categoryName.equalsIgnoreCase("keywords")){
+            if(photo.hasTag(tag)){
+                photo.removeKeywordTag(tag);
+            }else{
+                photo.addKeywordTag(tag);
+            }
         }
 
         photoService.savePhoto(photo);

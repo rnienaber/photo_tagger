@@ -46,5 +46,56 @@
             android:layout_below="@id/people_tags_text"
             android:text="@string/people"/>
 
+    <TextView
+            android:id="@+id/keywords"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="3sp"
+            android:textSize="14dp"
+            android:text="@string/keywords"
+            android:layout_below="@id/people_tags_button"/>
+
+    <TextView
+            android:id="@+id/keyword_tags_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="3sp"
+            android:textSize="11dp"
+            android:layout_below="@id/keywords"/>
+
+    <Button
+            android:id="@+id/keyword_tags_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@id/keyword_tags_text"
+            android:text="@string/keywords"/>
+    
+    
+    <TextView
+            android:id="@+id/printing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="3sp"
+            android:textSize="14dp"
+            android:text="@string/printing"
+            android:layout_below="@id/keyword_tags_button"/>
+
+    <TextView
+            android:id="@+id/printing_tags_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="3sp"
+            android:textSize="11dp"
+            android:layout_below="@id/printing"/>
+
+    <Button
+            android:id="@+id/printing_tags_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@id/printing_tags_text"
+            android:text="@string/printing"/>
+
 
 </RelativeLayout>

@@ -1,14 +1,12 @@
 package com.therandomist.photo_tagger.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.therandomist.photo_tagger.HomeActivity;
 import com.therandomist.photo_tagger.R;
 import com.therandomist.photo_tagger.model.Photo;
 import com.therandomist.photo_tagger.model.Tag;

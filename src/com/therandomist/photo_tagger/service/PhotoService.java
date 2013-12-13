@@ -3,7 +3,6 @@ package com.therandomist.photo_tagger.service;
 import android.content.Context;
 import android.util.Log;
 import com.therandomist.photo_tagger.HomeActivity;
-import com.therandomist.photo_tagger.model.Category;
 import com.therandomist.photo_tagger.model.Photo;
 import com.therandomist.photo_tagger.service.database.PhotoDBAdapter;
 

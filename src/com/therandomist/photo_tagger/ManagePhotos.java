@@ -1,16 +1,11 @@
 package com.therandomist.photo_tagger;
 
 import android.app.ExpandableListActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
 import com.therandomist.photo_tagger.adapter.FileListAdapter;
-import com.therandomist.photo_tagger.model.Category;
 import com.therandomist.photo_tagger.service.FileService;
 
 import java.io.File;

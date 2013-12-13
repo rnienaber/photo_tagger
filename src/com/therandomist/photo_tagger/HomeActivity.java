@@ -6,9 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import com.therandomist.photo_tagger.service.CategoryService;
-import com.therandomist.photo_tagger.service.PhotoService;
-import com.therandomist.photo_tagger.service.TagService;
 
 public class HomeActivity extends Activity {
 

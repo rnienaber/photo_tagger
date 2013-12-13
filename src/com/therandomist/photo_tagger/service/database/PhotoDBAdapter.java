@@ -8,13 +8,11 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import com.therandomist.photo_tagger.HomeActivity;
-import com.therandomist.photo_tagger.model.Category;
 import com.therandomist.photo_tagger.model.GPSLocation;
 import com.therandomist.photo_tagger.model.Photo;
 import com.therandomist.photo_tagger.model.Tag;
 import com.therandomist.photo_tagger.service.FileService;
 
-import java.security.spec.RSAOtherPrimeInfo;
 import java.util.ArrayList;
 import java.util.List;
 

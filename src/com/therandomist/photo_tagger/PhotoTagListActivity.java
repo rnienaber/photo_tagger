@@ -1,18 +1,10 @@
 package com.therandomist.photo_tagger;
 
-import android.app.Dialog;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 import com.therandomist.photo_tagger.adapter.TagListAdapter;
 import com.therandomist.photo_tagger.model.Category;
 import com.therandomist.photo_tagger.model.Photo;

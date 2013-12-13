@@ -2,10 +2,11 @@ package com.therandomist.photo_tagger;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.*;
-import com.therandomist.photo_tagger.adapter.CategorySpinnerAdapter;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import com.therandomist.photo_tagger.model.Category;
 import com.therandomist.photo_tagger.model.Tag;
 import com.therandomist.photo_tagger.service.CategoryService;

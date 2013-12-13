@@ -2,7 +2,6 @@ package com.therandomist.photo_tagger;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +12,6 @@ import android.widget.TextView;
 import com.therandomist.photo_tagger.model.Photo;
 import com.therandomist.photo_tagger.service.FileService;
 import com.therandomist.photo_tagger.service.PhotoService;
-
-import java.io.File;
 
 public class PhotoActivity extends Activity {
 

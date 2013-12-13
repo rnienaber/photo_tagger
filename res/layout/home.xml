@@ -27,18 +27,28 @@
 
         <Button
                 android:id="@+id/tag_photos_button"
+                android:background="@drawable/nice_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/tag_photos"/>
+                android:text="@string/photos"/>
 
         <Button
                 android:id="@+id/manage_tags_button"
+                android:background="@drawable/nice_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_toRightOf="@id/tag_photos_button"
-                android:text="@string/manage_tags"/>
+                android:text="@string/tags"/>
+        <Button
+                android:id="@+id/manage_locations_button"
+                android:background="@drawable/nice_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_toRightOf="@id/manage_tags_button"
+                android:text="@string/locations"/>
 
     </RelativeLayout>
 

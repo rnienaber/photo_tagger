@@ -1,8 +1,8 @@
 <resources>
 
-    <color name="button_regular">#01A2A6</color>
-    <color name="button_focussed">#29D9C2</color>
-    <color name="button_pressed">#FFFFA6</color>
+    <color name="button_regular">#ABBBBA</color>
+    <color name="button_focussed">#9FDFEA</color>
+    <color name="button_pressed">#75C6C8</color>
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
@@ -22,5 +22,11 @@
     <color name="light_blue">#29D9C2</color>
     <color name="green">#BDF271</color>
     <color name="pale">#FFFFA6</color>
+
+    <!-- little house -->
+    <color name="light_beige">#E8E6E8</color>
+    <color name="dark_beige">#ABBBBA</color>
+    <color name="light_blue2">#9FDFEA</color>
+    <color name="bluish">#75C6C8</color>
 
 </resources>

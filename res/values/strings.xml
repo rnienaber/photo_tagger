@@ -12,4 +12,6 @@
     <string name="tags">Tags</string>
     <string name="printing">Printing</string>
     <string name="keywords">Keywords</string>
+    <string name="photos">Photos</string>
+    <string name="locations">Locations</string>
 </resources>

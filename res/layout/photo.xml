@@ -40,10 +40,12 @@
 
     <Button
             android:id="@+id/people_tags_button"
+            android:background="@drawable/nice_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="right"
             android:layout_below="@id/people_tags_text"
+            android:layout_alignParentRight="true"
             android:text="@string/people"/>
 
     <TextView
@@ -65,10 +67,12 @@
 
     <Button
             android:id="@+id/keyword_tags_button"
+            android:background="@drawable/nice_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="right"
             android:layout_below="@id/keyword_tags_text"
+            android:layout_alignParentRight="true"
             android:text="@string/keywords"/>
     
     
@@ -91,10 +95,12 @@
 
     <Button
             android:id="@+id/printing_tags_button"
+            android:background="@drawable/nice_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="right"
             android:layout_below="@id/printing_tags_text"
+            android:layout_alignParentRight="true"
             android:text="@string/printing"/>
 
 

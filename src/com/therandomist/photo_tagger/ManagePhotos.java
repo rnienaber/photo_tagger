@@ -91,7 +91,6 @@ public class ManagePhotos extends ExpandableListActivity {
         File file = adapter.getChild(groupPosition, childPosition);
 
         if(file != null){
-
             if(file.isFile()){
                 Intent i = new Intent(this, PhotoActivity.class);
                 i.putExtra("photoPath", file.getAbsolutePath());
@@ -102,8 +101,6 @@ public class ManagePhotos extends ExpandableListActivity {
                 startActivity(i);
             }
         }
-
-
         return true;
     }
 }

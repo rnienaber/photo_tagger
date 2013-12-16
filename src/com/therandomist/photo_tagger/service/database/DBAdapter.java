@@ -20,6 +20,9 @@ public class DBAdapter {
             db.execSQL(CategoryDBAdapter.DATABASE_CREATE);
             db.execSQL(TagDBAdapter.DATABASE_CREATE);
             db.execSQL(PhotoDBAdapter.DATABASE_CREATE);
+            db.execSQL(CountryDBAdapter.DATABASE_CREATE);
+            db.execSQL(AreaDBAdapter.DATABASE_CREATE);
+            db.execSQL(LocationDBAdapter.DATABASE_CREATE);
         }
 
         @Override
@@ -28,8 +31,11 @@ public class DBAdapter {
                     + newVersion + ", which will destroy all old data");
 
             db.execSQL("DROP TABLE IF EXISTS "+ CategoryDBAdapter.DATABASE_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS "+ LocationDBAdapter.DATABASE_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS "+ CountryDBAdapter.DATABASE_TABLE);
             db.execSQL("DROP TABLE IF EXISTS "+ TagDBAdapter.DATABASE_TABLE);
             db.execSQL("DROP TABLE IF EXISTS "+ PhotoDBAdapter.DATABASE_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS "+ AreaDBAdapter.DATABASE_TABLE);
 
             onCreate(db);
         }

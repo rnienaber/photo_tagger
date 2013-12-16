@@ -8,7 +8,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import com.therandomist.photo_tagger.HomeActivity;
-import com.therandomist.photo_tagger.model.GPSLocation;
+import com.therandomist.photo_tagger.model.Location;
 import com.therandomist.photo_tagger.model.Photo;
 import com.therandomist.photo_tagger.model.Tag;
 import com.therandomist.photo_tagger.service.FileService;
@@ -41,14 +41,14 @@ public class PhotoDBAdapter {
     private DBAdapter.DatabaseHelper dbHelper;
     private SQLiteDatabase db;
     private TagDBAdapter tagDBAdapter;
-    private GPSLocationDBAdapter gpsLocationDBAdapter;
+    private LocationDBAdapter locationDBAdapter;
 
     private final Context context;
 
     public PhotoDBAdapter(Context context) {
         this.context = context;
         this.tagDBAdapter = new TagDBAdapter(context);
-        this.gpsLocationDBAdapter = new GPSLocationDBAdapter(context);
+        this.locationDBAdapter = new LocationDBAdapter(context);
     }
 
     public PhotoDBAdapter open() throws SQLException {
@@ -116,7 +116,7 @@ public class PhotoDBAdapter {
 
         Double latitude = cursor.getDouble(cursor.getColumnIndex(KEY_LATITUDE));
         Double longitude = cursor.getDouble(cursor.getColumnIndex(KEY_LONGITUDE));
-        GPSLocation gspLocation = null;
+        Location gspLocation = null;
 
         String peopleString = cursor.getString(cursor.getColumnIndex(KEY_PEOPLE));
         String keywordsString = cursor.getString(cursor.getColumnIndex(KEY_KEYWORDS));
@@ -149,10 +149,6 @@ public class PhotoDBAdapter {
         Tag tag = tagDBAdapter.getTag(name);
         tagDBAdapter.close();
         return tag;
-    }
-
-    private GPSLocation getGPSLocation(String name){
-        return gpsLocationDBAdapter.getGPSLocation(name);
     }
 
     protected Cursor fetchPhoto(Long photoId) throws SQLException {

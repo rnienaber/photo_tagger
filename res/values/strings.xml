@@ -14,4 +14,8 @@
     <string name="keywords">Keywords</string>
     <string name="photos">Photos</string>
     <string name="locations">Locations</string>
+    <string name="add_country">Add Country</string>
+    <string name="add_area">Add Area</string>
+    <string name="country_label">Country</string>
+    <string name="add_location">Add Location</string>
 </resources>

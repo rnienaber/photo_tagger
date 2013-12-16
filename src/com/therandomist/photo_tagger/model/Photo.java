@@ -9,12 +9,12 @@ public class Photo {
     Long id;
     String filename;
     String folder;
-    GPSLocation location;
+    Location location;
     List<Tag> people;
     List<Tag> keywords;
     List<Tag> printing;
 
-    public Photo(Long id, String filename, String folder, GPSLocation location, List<Tag> people, List<Tag> keywords, List<Tag> printing) {
+    public Photo(Long id, String filename, String folder, Location location, List<Tag> people, List<Tag> keywords, List<Tag> printing) {
         this.id = id;
         this.filename = filename;
         this.folder = folder;
@@ -24,7 +24,7 @@ public class Photo {
         this.printing = printing;
     }
 
-    public Photo(String filename, String folder, GPSLocation location, List<Tag> people, List<Tag> keywords, List<Tag> printing) {
+    public Photo(String filename, String folder, Location location, List<Tag> people, List<Tag> keywords, List<Tag> printing) {
         this.filename = filename;
         this.folder = folder;
         this.location = location;

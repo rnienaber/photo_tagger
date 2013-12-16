@@ -1,23 +1,27 @@
 package com.therandomist.photo_tagger.model;
 
-public class GPSLocation {
+public class Location {
 
     Double latitude;
     Double longitude;
     String name;
     Long id;
+    Area area;
+    Long areaId;
 
-    public GPSLocation(String name, Double latitude, Double longitude) {
+    public Location(String name, Double latitude, Double longitude, Area area) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.name = name;
+        this.area = area;
     }
 
-    public GPSLocation(Long id, String name, Double latitude, Double longitude) {
+    public Location(Long id, String name, Double latitude, Double longitude, Long areaId) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.name = name;
         this.id = id;
+        this.areaId = areaId;
     }
 
     public String getName() {
@@ -34,5 +38,9 @@ public class GPSLocation {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Area getArea() {
+        return area;
     }
 }

@@ -7,17 +7,17 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import com.therandomist.photo_tagger.HomeActivity;
-import com.therandomist.photo_tagger.model.Category;
+import com.therandomist.photo_tagger.model.Country;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryDBAdapter {
+public class CountryDBAdapter {
 
     public static final String KEY_NAME = "name";
     public static final String KEY_ROW_ID = "_id";
 
-    public static final String DATABASE_TABLE = "category";
+    public static final String DATABASE_TABLE = "country";
 
     public static final String DATABASE_CREATE = "create table " + DATABASE_TABLE + " (_id integer primary key autoincrement, "
             + " name text not null); ";
@@ -27,11 +27,11 @@ public class CategoryDBAdapter {
 
     private final Context context;
 
-    public CategoryDBAdapter(Context context) {
+    public CountryDBAdapter(Context context) {
         this.context = context;
     }
 
-    public CategoryDBAdapter open() throws SQLException {
+    public CountryDBAdapter open() throws SQLException {
         dbHelper = new DBAdapter.DatabaseHelper(context);
         db = dbHelper.getWritableDatabase();
         return this;
@@ -42,63 +42,61 @@ public class CategoryDBAdapter {
     }
 
 
-    public Category getCategory(Long categoryId){
-        Cursor cursor = fetchCategory(categoryId);
-        Category category = null;
+    public Country getCountry(Long countryId){
+        Cursor cursor = fetchCountry(countryId);
+        Country country = null;
 
         if(cursor != null){
-            category = getCategory(cursor);
+            country = getCountry(cursor);
             cursor.close();
         }
 
-        return category;
+        return country;
     }
 
-    public Category getCategory(String name){
-        Cursor cursor = fetchCategory(name.trim());
-        Category category = null;
-
-        Log.i(HomeActivity.APP_NAME, "Getting category: "+name);
+    public Country getCountry(String name){
+        Cursor cursor = fetchCountry(name.trim());
+        Country country = null;
 
         if(cursor != null){
-            category = getCategory(cursor);
+            country = getCountry(cursor);
             cursor.close();
         }
 
-        return category;
+        return country;
     }
 
-    public List<Category> getAllCategories(){
+    public List<Country> getAllCountries(){
 
-        Log.i(HomeActivity.APP_NAME, "getting all categories");
+        Log.i(HomeActivity.APP_NAME, "getting all countries");
 
-        List<Category> categories = new ArrayList<Category>();
-        Cursor cursor = fetchAllCategories();
+        List<Country> countries = new ArrayList<Country>();
+        Cursor cursor = fetchAllCountries();
 
         if(cursor.getCount() >0 && cursor.moveToFirst()){
             do{
-                categories.add(getCategory(cursor));
+                countries.add(getCountry(cursor));
             }while(cursor.moveToNext());
         }
 
         cursor.close();
-        return categories;
+        return countries;
     }
 
-    protected Category getCategory(Cursor cursor){
+    protected Country getCountry(Cursor cursor){
 
         String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
         Long id = cursor.getLong(cursor.getColumnIndex(KEY_ROW_ID));
 
-        return new Category(id, name);
+        return new Country(id, name);
     }
 
-    protected Cursor fetchCategory(Long categoryId) throws SQLException {
+    protected Cursor fetchCountry(Long countryId) throws SQLException {
         Cursor mCursor =
                 db.query(true, DATABASE_TABLE, new String[] {
                         KEY_ROW_ID,
                         KEY_NAME
-                }, KEY_ROW_ID + "=" + categoryId, null,
+                }, KEY_ROW_ID + "=" + countryId, null,
                         null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -106,7 +104,7 @@ public class CategoryDBAdapter {
         return mCursor;
     }
 
-    protected Cursor fetchCategory(String name) throws SQLException {
+    protected Cursor fetchCountry(String name) throws SQLException {
         Cursor mCursor =
                 db.query(true, DATABASE_TABLE, new String[] {
                         KEY_ROW_ID,
@@ -119,26 +117,26 @@ public class CategoryDBAdapter {
         return mCursor;
     }
 
-    protected Cursor fetchAllCategories() throws SQLException {
+    protected Cursor fetchAllCountries() throws SQLException {
         Cursor mCursor =
                 db.query(true, DATABASE_TABLE, new String[] {
                         KEY_ROW_ID,
                         KEY_NAME
-                }, null, null, null, null, KEY_ROW_ID, null);
+                }, null, null, null, null, KEY_NAME, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
         }
         return mCursor;
     }
 
-    public long addCategory(Category category) {
-        Log.i(HomeActivity.APP_NAME, "adding category: " + category.getName());
+    public long addCountry(Country country) {
+        Log.i(HomeActivity.APP_NAME, "adding country: " + country.getName());
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, category.getName());
+        values.put(KEY_NAME, country.getName());
         return db.insert(DATABASE_TABLE, null, values);
     }
 
-    public void deleteAllCategories(){
+    public void deleteAllCountries(){
         open();
         db.execSQL("delete from "+DATABASE_TABLE);
         close();

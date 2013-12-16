@@ -33,5 +33,14 @@ public class HomeActivity extends Activity {
                 startActivity(i);
             }
         });
+
+        Button manageLocationsButton = (Button) findViewById(R.id.manage_locations_button);
+        manageLocationsButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) {
+                Log.i(HomeActivity.APP_NAME, "Clicked on manage locations.");
+                Intent i = new Intent(view.getContext(), ManageCountriesActivity.class);
+                startActivity(i);
+            }
+        });
     }
 }

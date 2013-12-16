@@ -40,7 +40,6 @@
 
     <Button
             android:id="@+id/people_tags_button"
-            android:background="@drawable/nice_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
@@ -67,7 +66,6 @@
 
     <Button
             android:id="@+id/keyword_tags_button"
-            android:background="@drawable/nice_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
@@ -95,7 +93,6 @@
 
     <Button
             android:id="@+id/printing_tags_button"
-            android:background="@drawable/nice_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"

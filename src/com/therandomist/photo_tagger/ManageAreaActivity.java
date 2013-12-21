@@ -39,6 +39,13 @@ public class ManageAreaActivity  extends ListActivity {
         initializeList();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadLocations();
+        adapter.notifyDataSetChanged();
+    }
+
     public void readFromBundle(){
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -55,6 +62,9 @@ public class ManageAreaActivity  extends ListActivity {
     }
 
     public void loadLocations(){
+        locations.clear();
+        adapter.clear();
+
         locations = locationService.getAllLocationsForArea(area);
         if(locations != null && locations.size() > 0){
             adapter.notifyDataSetChanged();

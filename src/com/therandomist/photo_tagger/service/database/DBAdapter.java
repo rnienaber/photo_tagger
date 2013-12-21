@@ -3,7 +3,10 @@ package com.therandomist.photo_tagger.service.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
 import android.util.Log;
+
+import java.io.File;
 
 public class DBAdapter {
     private static final String DATABASE_NAME = "photo_tagger";
@@ -12,7 +15,9 @@ public class DBAdapter {
     protected static class DatabaseHelper extends SQLiteOpenHelper {
 
         DatabaseHelper(Context context) {
-            super(context, DATABASE_NAME, null, DATABASE_VERSION);
+            super(context, Environment.getExternalStorageDirectory()
+                    + File.separator + "photo_tagger"
+                    + File.separator + DATABASE_NAME + ".sqlite", null, DATABASE_VERSION);
         }
 
         @Override

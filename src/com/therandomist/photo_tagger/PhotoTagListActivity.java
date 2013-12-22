@@ -33,7 +33,7 @@ public class PhotoTagListActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.photo_tag_list);
+        setContentView(R.layout.simple_list);
 
         service = new TagService(this);
         categoryService = new CategoryService(this);

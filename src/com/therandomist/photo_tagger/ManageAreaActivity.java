@@ -30,7 +30,7 @@ public class ManageAreaActivity  extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.manage_locations);
+        setContentView(R.layout.simple_list);
 
         locationService = new LocationService(this);
         areaService = new AreaService(this);

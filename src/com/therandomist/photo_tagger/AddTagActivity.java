@@ -14,7 +14,7 @@ import com.therandomist.photo_tagger.service.TagService;
 
 import java.util.List;
 
-public class ManageTagsActivity extends Activity {
+public class AddTagActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

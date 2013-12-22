@@ -1,69 +1,56 @@
 package com.therandomist.photo_tagger.service;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import com.therandomist.photo_tagger.model.Category;
 import com.therandomist.photo_tagger.model.Tag;
-import com.therandomist.photo_tagger.service.database.CategoryDBAdapter;
+import com.therandomist.photo_tagger.service.database.CategoryRepository;
+import com.therandomist.photo_tagger.service.database.TagRepository;
 
 import java.util.List;
 
 public class CategoryService {
 
-    private CategoryDBAdapter database;
-    private Context context;
+    private CategoryRepository repository;
+    private TagRepository tagRepository;
 
     public CategoryService(Context context) {
-        database = new CategoryDBAdapter(context);
-        this.context = context;
-    }
-
-    public Category getCategory(Long categoryId){
-        database.open();
-        Category category = database.getCategory(categoryId);
-        database.close();
-
-        List<Tag> tags = new TagService(context).getAllTagsForCategory(category);
-        category.setTags(tags);
-
-        return category;
+        this.repository = new CategoryRepository(context);
+        this.tagRepository = new TagRepository(context);
     }
 
     public Category getCategory(String name){
-        database.open();
-        Category category = database.getCategory(name);
-        database.close();
+        SQLiteDatabase database = repository.openReadable();
 
-        List<Tag> tags = new TagService(context).getAllTagsForCategory(category);
-        category.setTags(tags);
-
-        return category;
+        try{
+            Category category = repository.findAllBy("name", name, database).get(0);
+            List<Tag> tags = tagRepository.findAllBy("category_id", category.getId(), database);
+            category.setTags(tags);
+            return category;
+        }finally{
+            database.close();
+        }
     }
 
     public List<Category> getAllCategories(){
-        database.open();
-        List<Category> categories = database.getAllCategories();
-        database.close();
+        SQLiteDatabase database = repository.openReadable();
 
-        for(Category category : categories){
-            List<Tag> tags = new TagService(context).getAllTagsForCategory(category);
-            category.setTags(tags);
+        try{
+            List<Category> categories = repository.findAll(database);
+            for(Category category : categories){
+                List<Tag> tags = tagRepository.findAllBy("category_id", category.getId(), database);
+                category.setTags(tags);
+            }
+            return categories;
+        }finally{
+            database.close();
         }
-
-        return categories;
     }
 
     public void addCategory(Category category){
-        if(category != null){
-            database.open();
-            long id = database.addCategory(category);
-            database.close();
+        Long id = repository.insert(category);
+        if(id != null){
             category.setId(id);
         }
-    }
-
-    public void deleteAllCategories(){
-        database.open();
-        database.deleteAllCategories();
-        database.close();
     }
 }

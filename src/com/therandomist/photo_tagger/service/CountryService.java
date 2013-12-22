@@ -1,69 +1,45 @@
 package com.therandomist.photo_tagger.service;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import com.therandomist.photo_tagger.model.Area;
 import com.therandomist.photo_tagger.model.Country;
-import com.therandomist.photo_tagger.service.database.CountryDBAdapter;
+import com.therandomist.photo_tagger.service.database.AreaRepository;
+import com.therandomist.photo_tagger.service.database.CountryRepository;
 
 import java.util.List;
 
 public class CountryService {
 
-    private CountryDBAdapter database;
-    private Context context;
+    private CountryRepository repository;
+    private AreaRepository areaRepository;
 
     public CountryService(Context context) {
-        database = new CountryDBAdapter(context);
-        this.context = context;
-    }
-
-    public Country getCountry(Long countryId){
-        database.open();
-        Country country = database.getCountry(countryId);
-        database.close();
-
-        List<Area> areas = new AreaService(context).getAllAreasForCountry(country);
-        country.setAreas(areas);
-
-        return country;
-    }
-
-    public Country getCountry(String name){
-        database.open();
-        Country country = database.getCountry(name);
-        database.close();
-
-        List<Area> areas = new AreaService(context).getAllAreasForCountry(country);
-        country.setAreas(areas);
-
-        return country;
+        repository = new CountryRepository(context);
+        areaRepository = new AreaRepository(context);
     }
 
     public List<Country> getAllCountries(){
-        database.open();
-        List<Country> countries = database.getAllCountries();
-        database.close();
 
-        for(Country country : countries){
-            List<Area> areas = new AreaService(context).getAllAreasForCountry(country);
-            country.setAreas(areas);
+        SQLiteDatabase database = repository.openReadable();
+
+        try{
+            List<Country> countries = repository.findAll(database);
+
+            for(Country country : countries){
+                List<Area> areas = areaRepository.findAllBy("country_id", country.getId(), database);
+                country.setAreas(areas);
+            }
+            return countries;
+        }finally{
+            database.close();
         }
-
-        return countries;
     }
 
     public void addCountry(Country country){
-        if(country != null){
-            database.open();
-            long id = database.addCountry(country);
-            database.close();
+        Long id = repository.insert(country);
+        if(id != null){
             country.setId(id);
         }
-    }
-
-    public void deleteAllCountries(){
-        database.open();
-        database.deleteAllCountries();
-        database.close();
     }
 }

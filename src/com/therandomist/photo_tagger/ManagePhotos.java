@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ExpandableListView;
 import com.therandomist.photo_tagger.adapter.FileListAdapter;
-import com.therandomist.photo_tagger.service.FileService;
+import com.therandomist.photo_tagger.service.FileHelper;
 
 import java.io.File;
 import java.util.*;
@@ -16,7 +16,7 @@ public class ManagePhotos extends ExpandableListActivity {
 
 
     private FileListAdapter adapter;
-    private FileService fileService;
+    private FileHelper fileHelper;
     private List<File> files;
 
     private List<Map<String, String>> groupData;
@@ -27,7 +27,7 @@ public class ManagePhotos extends ExpandableListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        fileService = new FileService();
+        fileHelper = new FileHelper();
         groupData = new ArrayList<Map<String, String>>();
         childData = new ArrayList<List<File>>();
 
@@ -60,12 +60,12 @@ public class ManagePhotos extends ExpandableListActivity {
         if(currentPath != ""){
             return currentPath;
         }else{
-            return FileService.ROOT;
+            return FileHelper.ROOT;
         }
     }
 
     public void loadFolders(){
-        files = fileService.getAllFiles(getFilePath());
+        files = fileHelper.getAllFiles(getFilePath());
 
         groupData.clear();
         childData.clear();

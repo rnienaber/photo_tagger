@@ -15,9 +15,10 @@ public class Area {
         this.country = country;
     }
 
-    public Area(Long id, String name){
+    public Area(Long id, String name, Long countryId){
         this.name = name;
         this.id = id;
+        this.countryId = countryId;
     }
 
     public String getName() {

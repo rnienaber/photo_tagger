@@ -8,7 +8,7 @@ import android.widget.EditText;
 import com.therandomist.photo_tagger.model.Category;
 import com.therandomist.photo_tagger.service.CategoryService;
 
-public class ManageCategoriesActivity extends Activity {
+public class AddCategoryActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

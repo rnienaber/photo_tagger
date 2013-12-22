@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.therandomist.photo_tagger.model.Photo;
-import com.therandomist.photo_tagger.service.FileService;
+import com.therandomist.photo_tagger.service.FileHelper;
 import com.therandomist.photo_tagger.service.PhotoService;
 
 public class PhotoActivity extends Activity {
@@ -51,7 +51,7 @@ public class PhotoActivity extends Activity {
 
         TextView photoNameView = (TextView) findViewById(R.id.photo_file_name);
         if(photoNameView != null){
-            photoNameView.setText(photoPath.replace(FileService.ROOT+"/", ""));
+            photoNameView.setText(photoPath.replace(FileHelper.ROOT+"/", ""));
         }
 
         loadPeopleTags();

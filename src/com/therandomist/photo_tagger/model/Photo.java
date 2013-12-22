@@ -1,6 +1,6 @@
 package com.therandomist.photo_tagger.model;
 
-import com.therandomist.photo_tagger.service.FileService;
+import com.therandomist.photo_tagger.service.FileHelper;
 
 import java.util.List;
 
@@ -14,6 +14,10 @@ public class Photo {
     List<Tag> keywords;
     List<Tag> printing;
 
+    String peopleString;
+    String keywordString;
+    String printingString;
+
     public Photo(Long id, String filename, String folder, Location location, List<Tag> people, List<Tag> keywords, List<Tag> printing) {
         this.id = id;
         this.filename = filename;
@@ -22,6 +26,16 @@ public class Photo {
         this.people = people;
         this.keywords = keywords;
         this.printing = printing;
+    }
+
+    public Photo(Long id, String filename, String folder, Location location, String peopleString, String keywordString, String printingString) {
+        this.id = id;
+        this.filename = filename;
+        this.folder = folder;
+        this.location = location;
+        this.peopleString = peopleString;
+        this.keywordString = keywordString;
+        this.printingString = printingString;
     }
 
     public Photo(String filename, String folder, Location location, List<Tag> people, List<Tag> keywords, List<Tag> printing) {
@@ -37,8 +51,8 @@ public class Photo {
     }
 
     public void setPath(String path){
-        folder = FileService.getFolder(path);
-        filename = FileService.getFilename(path);
+        folder = FileHelper.getFolder(path);
+        filename = FileHelper.getFilename(path);
     }
 
     public String getFilename() {
@@ -122,5 +136,29 @@ public class Photo {
 
     public Long getId() {
         return id;
+    }
+
+    public void setPeople(List<Tag> people) {
+        this.people = people;
+    }
+
+    public void setPrinting(List<Tag> printing) {
+        this.printing = printing;
+    }
+
+    public void setKeywords(List<Tag> keywords) {
+        this.keywords = keywords;
+    }
+
+    public String getPeopleString() {
+        return peopleString;
+    }
+
+    public String getPrintingString() {
+        return printingString;
+    }
+
+    public String getKeywordString() {
+        return keywordString;
     }
 }

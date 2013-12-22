@@ -1,84 +1,79 @@
 package com.therandomist.photo_tagger.service;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import com.therandomist.photo_tagger.model.Area;
 import com.therandomist.photo_tagger.model.Country;
 import com.therandomist.photo_tagger.model.Location;
-import com.therandomist.photo_tagger.service.database.AreaDBAdapter;
+import com.therandomist.photo_tagger.service.database.AreaRepository;
+import com.therandomist.photo_tagger.service.database.LocationRepository;
 
 import java.util.List;
 
 public class AreaService {
 
-    private AreaDBAdapter database;
-    private Context context;
+    private AreaRepository repository;
+    private LocationRepository locationRepository;
 
     public AreaService(Context context) {
-        database = new AreaDBAdapter(context);
-        this.context = context;
+        repository = new AreaRepository(context);
+        locationRepository = new LocationRepository(context);
     }
 
     public Area getArea(Long areaId){
-        database.open();
-        Area area = database.getArea(areaId);
-        database.close();
+        SQLiteDatabase database = repository.openReadable();
 
-        List<Location> locations = new LocationService(context).getAllLocationsForArea(area);
-        area.setLocations(locations);
-
-        return area;
-    }
-
-    public Area getArea(String name){
-        database.open();
-        Area area = database.getArea(name);
-        database.close();
-
-        List<Location> locations = new LocationService(context).getAllLocationsForArea(area);
-        area.setLocations(locations);
-
-        return area;
-    }
-
-    public List<Area> getAllAreas(){
-        database.open();
-        List<Area> areas = database.getAllAreas();
-        database.close();
-
-        for(Area area : areas){
-            List<Location> locations = new LocationService(context).getAllLocationsForArea(area);
+        try{
+            Area area = repository.findAllBy("_id", areaId, database).get(0);
+            List<Location> locations = locationRepository.findAllBy("area_id", area.getId(), database);
             area.setLocations(locations);
+            return area;
+        }finally{
+            database.close();
         }
-
-        return areas;
     }
+
+//    public Area getArea(String name){
+//        SQLiteDatabase database = repository.openReadable();
+//
+//        try{
+//            Area area = repository.findAllBy("name", name.trim(), database).get(0);
+//            List<Location> locations = locationRepository.findAllBy("area_id", area.getId(), database);
+//            area.setLocations(locations);
+//            return area;
+//        }finally{
+//            database.close();
+//        }
+//    }
+
+//    public List<Area> getAllAreas(){
+//        database.open();
+//        List<Area> areas = database.getAllAreas();
+//        database.close();
+//
+//        for(Area area : areas){
+//            List<Location> locations = new LocationService(context).getAllLocationsForArea(area);
+//            area.setLocations(locations);
+//        }
+//
+//        return areas;
+//    }
 
     public List<Area> getAllAreasForCountry(Country country){
-        database.open();
-        List<Area> result = database.getAllAreasForCountry(country);
-        database.close();
-        return result;
+        return repository.findAllBy("country_id", country.getId());
     }
 
-    public List<Area> getAllAreasForCountry(Long countryId){
-        database.open();
-        List<Area> result = database.getAllAreasForCountry(countryId);
-        database.close();
-        return result;
-    }
+//    public List<Area> getAllAreasForCountry(Long countryId){
+//        database.open();
+//        List<Area> result = database.getAllAreasForCountry(countryId);
+//        database.close();
+//        return result;
+//    }
 
     public void addArea(Area area){
-        if(area != null){
-            database.open();
-            long id = database.addArea(area);
-            database.close();
+        Long id = repository.insert(area);
+        if(id != null){
             area.setId(id);
         }
-    }
-
-    public void deleteAllAreas(){
-        database.open();
-        database.deleteAllAreas();
-        database.close();
     }
 }

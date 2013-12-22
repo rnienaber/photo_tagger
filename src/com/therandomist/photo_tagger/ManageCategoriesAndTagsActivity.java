@@ -81,14 +81,13 @@ public class ManageCategoriesAndTagsActivity extends ExpandableListActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         switch (item.getItemId()) {
             case R.id.add_category_menu_item:
-                Intent categoryIntent = new Intent(getApplicationContext(), ManageCategoriesActivity.class);
+                Intent categoryIntent = new Intent(getApplicationContext(), AddCategoryActivity.class);
                 startActivity(categoryIntent);
                 return true;
             case R.id.add_tag_menu_item:
-                Intent tagIntent = new Intent(getApplicationContext(), ManageTagsActivity.class);
+                Intent tagIntent = new Intent(getApplicationContext(), AddTagActivity.class);
                 startActivity(tagIntent);
                 return true;
             default:

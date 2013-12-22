@@ -16,6 +16,10 @@ public class HomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
+        setupUI();
+    }
+
+    public void setupUI(){
         Button tagPhotosButton = (Button) findViewById(R.id.tag_photos_button);
         tagPhotosButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {

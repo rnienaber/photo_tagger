@@ -22,8 +22,8 @@
         </activity>
 
         <activity android:name=".ManageCategoriesAndTagsActivity"  android:label="Manage Categories and Tags" android:screenOrientation="portrait"/>
-        <activity android:name=".ManageCategoriesActivity" android:label="Manage Categories" android:screenOrientation="portrait"/>
-        <activity android:name=".ManageTagsActivity" android:label="Manage Tags" android:screenOrientation="portrait"/>
+        <activity android:name=".AddCategoryActivity" android:label="Manage Categories" android:screenOrientation="portrait"/>
+        <activity android:name=".AddTagActivity" android:label="Manage Tags" android:screenOrientation="portrait"/>
         <activity android:name=".ManagePhotos" android:label="Photos"/>
         <activity android:name=".PhotoActivity" android:label="Photo"/>
         <activity android:name=".PhotoTagListActivity" android:label="Photo Tags"/>

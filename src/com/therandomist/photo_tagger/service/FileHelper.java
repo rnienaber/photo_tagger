@@ -7,7 +7,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-public class FileService {
+public class FileHelper {
 
     public static final String ROOT = "/mnt/sdcard/photos";
 
@@ -15,10 +15,6 @@ public class FileService {
         File file = new File(path);
         Log.i(HomeActivity.APP_NAME, "Loading file: "+ file.getAbsolutePath());
         return Arrays.asList(file.listFiles());
-    }
-
-    public static String asPhotoPath(String path){
-        return path.substring(path.indexOf("photos"), path.length());
     }
 
     public static String getFolder(String path){

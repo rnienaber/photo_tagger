@@ -115,6 +115,7 @@ public class ManageAreaActivity  extends ListActivity {
         if(location != null){
             Intent i = new Intent(this, LocationActivity.class);
             i.putExtra("locationId", location.getId());
+            i.putExtra("areaId", area.getId());
 
             if(state.equalsIgnoreCase("photo")){
                 i.putExtra("state", LocationActivity.USE);

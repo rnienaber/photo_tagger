@@ -40,12 +40,22 @@
             android:visibility="invisible"/>
 
     <Button
+            android:id="@+id/save_and_apply_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/save_and_apply"
+            android:layout_below="@id/map"
+            android:visibility="invisible"/>
+
+    <Button
             android:id="@+id/apply_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/apply_button"
             android:layout_below="@id/map"
+            android:layout_toRightOf="@id/save_and_apply_button"
             android:visibility="invisible"/>
 
     <Button

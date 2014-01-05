@@ -30,10 +30,12 @@ public class LocationActivity extends FragmentActivity  {
 
     private GoogleMap map;
     private Circle circle;
+    private LocationService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        service = new LocationService(getApplicationContext());
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -41,14 +43,15 @@ public class LocationActivity extends FragmentActivity  {
         setContentView(R.layout.location);
 
         String state = (String)bundle.get("state");
+
         if(state.equalsIgnoreCase(CREATE)){
             Long areaId = (Long)bundle.get("areaId");
-            setupCreateView(areaId);
+            AreaService areaService = new AreaService(getApplicationContext());
+            Area area = areaService.getArea(areaId);
+            setupCreateView(area);
         }else{
-
             Long locationId = (Long)bundle.get("locationId");
-            LocationService locationService = new LocationService(getApplicationContext());
-            Location location = locationService.getLocation(locationId);
+            Location location = service.getLocation(locationId);
 
             if(state.equalsIgnoreCase(VIEW)){
                 setupViewView(location);
@@ -58,15 +61,11 @@ public class LocationActivity extends FragmentActivity  {
         }
     }
 
-    public void setupCreateView(Long areaId){
-        AreaService areaService = new AreaService(getApplicationContext());
-        final Area area = areaService.getArea(areaId);
-
+    public void setupCreateView(final Area area){
         setTitle("Add Location in "+area.getName());
         setupMap(null);
 
         final EditText nameField = (EditText) findViewById(R.id.name_textfield);
-        final LocationService service = new LocationService(this);
 
         Button saveButton = (Button) findViewById(R.id.save_button);
         saveButton.setVisibility(View.VISIBLE);
@@ -91,7 +90,7 @@ public class LocationActivity extends FragmentActivity  {
         nameField.setText(location.getName());
     }
 
-    public void setupUseView(Location location){
+    public void setupUseView(final Location location){
         setTitle("Use Location in " + location.getArea().getName());
         setupMap(location);
 
@@ -115,6 +114,27 @@ public class LocationActivity extends FragmentActivity  {
                 double latitude = map.getCameraPosition().target.latitude;
                 double longitude = map.getCameraPosition().target.longitude;
                 String name = nameField.getText().toString();
+
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("name", name);
+                resultIntent.putExtra("latitude", latitude);
+                resultIntent.putExtra("longitude", longitude);
+                setResult(Activity.RESULT_OK, resultIntent);
+
+                finish();
+            }
+        });
+
+        Button saveAndApplyButton = (Button) findViewById(R.id.save_and_apply_button);
+        saveAndApplyButton.setVisibility(View.VISIBLE);
+        saveAndApplyButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                double latitude = map.getCameraPosition().target.latitude;
+                double longitude = map.getCameraPosition().target.longitude;
+                String name = nameField.getText().toString();
+
+                service.addLocation(new Location(name, latitude, longitude, location.getArea()));
 
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("name", name);

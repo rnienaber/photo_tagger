@@ -25,4 +25,6 @@
     <string name="set_printing">Set Printing</string>
     <string name="apply_button">Apply Location</string>
     <string name="near_button">Near</string>
+    <string name="backup">Backup</string>
+    <string name="save_and_apply">Save and Apply</string>
 </resources>

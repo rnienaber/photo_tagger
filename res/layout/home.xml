@@ -46,6 +46,13 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_toRightOf="@id/manage_tags_button"
                 android:text="@string/locations"/>
+        <Button
+                android:id="@+id/backup_database_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_toRightOf="@id/manage_locations_button"
+                android:text="@string/backup"/>
 
     </RelativeLayout>
 

@@ -8,15 +8,18 @@ import android.util.Log;
 
 import java.io.File;
 
-class DatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "photo_tagger";
     private static final int DATABASE_VERSION = 1;
 
     DatabaseHelper(Context context) {
         super(context, Environment.getExternalStorageDirectory()
-                + File.separator + "photo_tagger"
-                + File.separator + DATABASE_NAME + ".sqlite", null, DATABASE_VERSION);
+                + getDBFilename(), null, DATABASE_VERSION);
+    }
+
+    public static String getDBFilename(){
+        return File.separator + "photo_tagger"  + File.separator + DATABASE_NAME + ".sqlite";
     }
 
     @Override

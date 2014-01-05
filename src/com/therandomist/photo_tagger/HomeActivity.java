@@ -2,10 +2,13 @@ package com.therandomist.photo_tagger;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import com.therandomist.photo_tagger.service.database.DatabaseHelper;
 
 public class HomeActivity extends Activity {
 
@@ -47,5 +50,26 @@ public class HomeActivity extends Activity {
                 startActivity(i);
             }
         });
+
+        Button backupButton = (Button) findViewById(R.id.backup_database_button);
+        backupButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) {
+                Log.i(HomeActivity.APP_NAME, "Clicked on backup database.");
+                emailDatabaseFile();
+            }
+        });
+    }
+
+    public void emailDatabaseFile(){
+        String PATH =  Environment.getExternalStorageDirectory()+ DatabaseHelper.getDBFilename();
+
+        Uri uri = Uri.parse("file://"+PATH);
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(Intent.EXTRA_EMAIL, "");
+        i.putExtra(Intent.EXTRA_SUBJECT,"Photo Tagger Database");
+        i.putExtra(Intent.EXTRA_TEXT,"");
+        i.putExtra(Intent.EXTRA_STREAM, uri);
+        startActivity(Intent.createChooser(i, "Select application"));
     }
 }

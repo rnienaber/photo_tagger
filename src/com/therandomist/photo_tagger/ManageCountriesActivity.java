@@ -1,8 +1,10 @@
 package com.therandomist.photo_tagger;
 
+import android.app.Activity;
 import android.app.ExpandableListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +22,7 @@ import java.util.Map;
 
 public class ManageCountriesActivity extends ExpandableListActivity {
     private static final String KEY1 = "KEY1";
+    public static final int IDENTIFIER = 6227;
 
     private CountriesListAdapter adapter;
     private CountryService countryService;
@@ -27,10 +30,15 @@ public class ManageCountriesActivity extends ExpandableListActivity {
 
     private List<Map<String, String>> groupData;
     private List<List<Area>> childData;
+    private String state;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        state = (String)bundle.get("state");
 
         countryService = new CountryService(this);
         groupData = new ArrayList<Map<String, String>>();
@@ -103,8 +111,36 @@ public class ManageCountriesActivity extends ExpandableListActivity {
         if(area != null){
             Intent i = new Intent(this, ManageAreaActivity.class);
             i.putExtra("areaId", area.getId());
-            startActivity(i);
+            i.putExtra("state", state);
+            startActivityForResult(i, ManageAreaActivity.IDENTIFIER);
         }
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.i(HomeActivity.APP_NAME, "Manage Countries - Returning from: " + requestCode);
+
+        if(!state.equalsIgnoreCase("photo")) return;
+
+        switch(requestCode){
+            case ManageAreaActivity.IDENTIFIER :
+                if (resultCode == Activity.RESULT_OK){
+                    String name = data.getStringExtra("name");
+                    Double latitude = data.getDoubleExtra("latitude", 0);
+                    Double longitude = data.getDoubleExtra("longitude", 0);
+
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("name", name);
+                    resultIntent.putExtra("latitude", latitude);
+                    resultIntent.putExtra("longitude", longitude);
+                    setResult(Activity.RESULT_OK, resultIntent);
+
+                    finish();
+                }
+                break;
+        }
     }
 }

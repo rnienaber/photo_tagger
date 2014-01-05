@@ -53,4 +53,13 @@ public class Location {
     public void setArea(Area area) {
         this.area = area;
     }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

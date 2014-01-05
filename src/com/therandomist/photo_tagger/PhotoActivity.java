@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.therandomist.photo_tagger.model.Location;
 import com.therandomist.photo_tagger.model.Photo;
 import com.therandomist.photo_tagger.service.FileHelper;
 import com.therandomist.photo_tagger.service.PhotoService;
@@ -57,6 +59,7 @@ public class PhotoActivity extends Activity {
         loadPeopleTags();
         loadPrintingTags();
         loadKeywordTags();
+        loadLocationText();
     }
     
     public void loadPeopleTags(){
@@ -65,17 +68,7 @@ public class PhotoActivity extends Activity {
             peopleTagsView.setText(photo.getPeople());
         }
 
-        Button peopleTagsButton = (Button) findViewById(R.id.people_tags_button);
-        peopleTagsButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view) {
-                Log.i(HomeActivity.APP_NAME, "Clicked on add tags to photo.");
-                Intent i = new Intent(view.getContext(), PhotoTagListActivity.class);
-                i.putExtra("categoryName", "people");
-                i.putExtra("photoPath", photoPath);
-                startActivity(i);
 
-            }
-        });    
     }
 
     public void loadPrintingTags(){
@@ -83,18 +76,6 @@ public class PhotoActivity extends Activity {
         if(printingTagsView != null){
             printingTagsView.setText(photo.getPrinting());
         }
-
-        Button printingTagsButton = (Button) findViewById(R.id.printing_tags_button);
-        printingTagsButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view) {
-                Log.i(HomeActivity.APP_NAME, "Clicked on add tags to photo.");
-                Intent i = new Intent(view.getContext(), PhotoTagListActivity.class);
-                i.putExtra("categoryName", "printing");
-                i.putExtra("photoPath", photoPath);
-                startActivity(i);
-
-            }
-        });
     }
 
     public void loadKeywordTags(){
@@ -102,17 +83,69 @@ public class PhotoActivity extends Activity {
         if(keywordTagsView != null){
             keywordTagsView.setText(photo.getKeywords());
         }
+    }
 
-        Button keywordTagsButton = (Button) findViewById(R.id.keyword_tags_button);
-        keywordTagsButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view) {
-                Log.i(HomeActivity.APP_NAME, "Clicked on add tags to photo.");
-                Intent i = new Intent(view.getContext(), PhotoTagListActivity.class);
-                i.putExtra("categoryName", "keywords");
-                i.putExtra("photoPath", photoPath);
-                startActivity(i);
+    public void loadLocationText(){
+        TextView locationTextView = (TextView) findViewById(R.id.location_text);
+        if(locationTextView != null){
+            locationTextView.setText(photo.getLocationName());
+        }
+    }
 
-            }
-        });
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.photo_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add_people:
+                return handleOptionsItemSelected(PhotoTagListActivity.class, "people");
+            case R.id.add_keywords:
+                return handleOptionsItemSelected(PhotoTagListActivity.class, "keywords");
+            case R.id.set_printing:
+                return handleOptionsItemSelected(PhotoTagListActivity.class, "printing");
+            case R.id.set_location:
+                Intent i = new Intent(getApplicationContext(), ManageCountriesActivity.class);
+                i.putExtra("state", "photo");
+                startActivityForResult(i, ManageCountriesActivity.IDENTIFIER);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.i(HomeActivity.APP_NAME, "Manage Photo - Returning from: "+requestCode);
+
+        switch(requestCode){
+            case ManageCountriesActivity.IDENTIFIER :
+                if (resultCode == Activity.RESULT_OK){
+                    String name = data.getStringExtra("name");
+                    Double latitude = data.getDoubleExtra("latitude", 0);
+                    Double longitude = data.getDoubleExtra("longitude", 0);
+
+                    Location location = new Location(name, latitude, longitude, null);
+                    photo.setLocation(location);
+                    photoService.savePhoto(photo);
+                    loadLocationText();
+
+                }
+                break;
+        }
+    }
+
+    public boolean handleOptionsItemSelected(Class klass, String categoryName){
+        Intent i = new Intent(getApplicationContext(), klass);
+        i.putExtra("categoryName", categoryName);
+        i.putExtra("photoPath", photoPath);
+        startActivity(i);
+        return true;
     }
 }

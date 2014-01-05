@@ -18,4 +18,11 @@
     <string name="add_area">Add Area</string>
     <string name="country_label">Country</string>
     <string name="add_location">Add Location</string>
+    <string name="location">Location</string>
+    <string name="set_location">Set Location</string>
+    <string name="add_people">Add People</string>
+    <string name="add_keywords">Add Keywords</string>
+    <string name="set_printing">Set Printing</string>
+    <string name="apply_button">Apply Location</string>
+    <string name="near_button">Near</string>
 </resources>

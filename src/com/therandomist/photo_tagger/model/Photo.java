@@ -71,6 +71,10 @@ public class Photo {
         return location != null ? location.getLongitude() : Double.valueOf(0);
     }
 
+    public String getLocationName(){
+        return location != null ? location.getName() : "";
+    }
+
     public boolean hasTag(Tag tag){
         return people.contains(tag) || keywords.contains(tag) || printing.contains(tag);
     }
@@ -147,5 +151,20 @@ public class Photo {
 
     public String getKeywordString() {
         return keywordString;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    @Override
+    public String toString() {
+        return "Photo{" +
+                "filename='" + filename + '\'' +
+                ", location=" + location +
+                ", people=" + people +
+                ", keywords=" + keywords +
+                ", printing=" + printing +
+                '}';
     }
 }

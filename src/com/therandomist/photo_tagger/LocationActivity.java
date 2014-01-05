@@ -1,5 +1,6 @@
 package com.therandomist.photo_tagger;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,6 +23,11 @@ import com.therandomist.photo_tagger.service.LocationService;
 
 public class LocationActivity extends FragmentActivity  {
 
+    public static final String VIEW = "view";
+    public static final String USE = "use";
+    public static final String CREATE = "create";
+    public static final int IDENTIFIER = 52;
+
     private GoogleMap map;
     private Circle circle;
 
@@ -29,20 +35,26 @@ public class LocationActivity extends FragmentActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
         setContentView(R.layout.location);
 
-
         String state = (String)bundle.get("state");
-        if(state.equalsIgnoreCase("create")){
+        if(state.equalsIgnoreCase(CREATE)){
             Long areaId = (Long)bundle.get("areaId");
             setupCreateView(areaId);
-        }else if(state.equalsIgnoreCase("view")){
+        }else{
+
             Long locationId = (Long)bundle.get("locationId");
-            setupViewView(locationId);
+            LocationService locationService = new LocationService(getApplicationContext());
+            Location location = locationService.getLocation(locationId);
+
+            if(state.equalsIgnoreCase(VIEW)){
+                setupViewView(location);
+            }else if(state.equalsIgnoreCase(USE)){
+                setupUseView(location);
+            }
         }
     }
 
@@ -71,18 +83,50 @@ public class LocationActivity extends FragmentActivity  {
         });
     }
 
-    public void setupViewView(Long locationId){
-        LocationService locationService = new LocationService(getApplicationContext());
-        Location location = locationService.getLocation(locationId);
-
+    public void setupViewView(Location location){
         setTitle("View Location in " + location.getArea().getName());
         setupMap(location);
 
-        Button saveButton = (Button) findViewById(R.id.save_button);
-        saveButton.setVisibility(View.INVISIBLE);
+        final EditText nameField = (EditText) findViewById(R.id.name_textfield);
+        nameField.setText(location.getName());
+    }
+
+    public void setupUseView(Location location){
+        setTitle("Use Location in " + location.getArea().getName());
+        setupMap(location);
 
         final EditText nameField = (EditText) findViewById(R.id.name_textfield);
         nameField.setText(location.getName());
+
+        Button nearButton = (Button) findViewById(R.id.near_button);
+        nearButton.setVisibility(View.VISIBLE);
+        nearButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                String locationName = nameField.getText().toString();
+                nameField.setText("near "+locationName);
+            }
+        });
+
+        Button applyButton = (Button) findViewById(R.id.apply_button);
+        applyButton.setVisibility(View.VISIBLE);
+        applyButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                double latitude = map.getCameraPosition().target.latitude;
+                double longitude = map.getCameraPosition().target.longitude;
+                String name = nameField.getText().toString();
+
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("name", name);
+                resultIntent.putExtra("latitude", latitude);
+                resultIntent.putExtra("longitude", longitude);
+                setResult(Activity.RESULT_OK, resultIntent);
+
+                finish();
+            }
+        });
+
+
     }
 
     public void setupMap(Location location){

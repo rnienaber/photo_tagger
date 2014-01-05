@@ -43,6 +43,7 @@ public class HomeActivity extends Activity {
             public void onClick(View view) {
                 Log.i(HomeActivity.APP_NAME, "Clicked on manage locations.");
                 Intent i = new Intent(view.getContext(), ManageCountriesActivity.class);
+                i.putExtra("state", "manage");
                 startActivity(i);
             }
         });

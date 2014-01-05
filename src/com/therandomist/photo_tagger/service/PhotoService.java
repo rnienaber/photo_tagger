@@ -1,6 +1,8 @@
 package com.therandomist.photo_tagger.service;
 
 import android.content.Context;
+import android.util.Log;
+import com.therandomist.photo_tagger.HomeActivity;
 import com.therandomist.photo_tagger.model.Photo;
 import com.therandomist.photo_tagger.model.Tag;
 import com.therandomist.photo_tagger.service.database.PhotoRepository;
@@ -52,6 +54,7 @@ public class PhotoService {
     }
 
     public void savePhoto(Photo photo){
+        Log.i(HomeActivity.APP_NAME, "Saving photo:" + photo);
         if(photo.getId() != null){
             repository.update(photo, photo.getId());
         }else{

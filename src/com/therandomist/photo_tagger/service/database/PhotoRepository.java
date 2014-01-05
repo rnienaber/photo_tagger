@@ -18,6 +18,7 @@ public class PhotoRepository extends Repository<Photo>{
             + " folder text,"
             + " latitude real, "
             + " longitude real, "
+            + " location_name text, "
             + " people text,"
             + " keywords text,"
             + " printing text); ";
@@ -64,15 +65,12 @@ public class PhotoRepository extends Repository<Photo>{
 
         Double latitude = cursor.getDouble(cursor.getColumnIndex("latitude"));
         Double longitude = cursor.getDouble(cursor.getColumnIndex("longitude"));
+        String locationName = cursor.getString(cursor.getColumnIndex("location_name"));
         Location gpsLocation = null;
 
         String peopleString = cursor.getString(cursor.getColumnIndex("people"));
         String keywordsString = cursor.getString(cursor.getColumnIndex("keywords"));
         String printingString = cursor.getString(cursor.getColumnIndex("printing"));
-
-//        List<Tag> people = convertNamesToTag(peopleString);
-//        List<Tag> printing = convertNamesToTag(printingString);
-//        List<Tag> keywords = convertNamesToTag(keywordsString);
 
         return new Photo(id, filename, folder, gpsLocation, peopleString, keywordsString, printingString);
     }
@@ -83,6 +81,7 @@ public class PhotoRepository extends Repository<Photo>{
         values.put("folder", photo.getFolder());
         values.put("latitude", photo.getLatitude());
         values.put("longitude", photo.getLongitude());
+//        values.put("location_name", photo.getLocationName());
         values.put("people", photo.getPeople());
         values.put("keywords", photo.getKeywords());
         values.put("printing", photo.getPrinting());

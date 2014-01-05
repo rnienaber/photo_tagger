@@ -41,11 +41,9 @@ public class ManageCountriesActivity extends ExpandableListActivity {
         adapter = new CountriesListAdapter(
                 this,
                 groupData,
-                R.layout.country_row,         //group layout
                 new String[] { KEY1 },                            //group from
                 new int[] { R.id.country_name, android.R.id.text2 },   //group to
-                childData,
-                R.layout.area_row         //child layout
+                childData
         );
 
         setContentView(R.layout.manage_countries);

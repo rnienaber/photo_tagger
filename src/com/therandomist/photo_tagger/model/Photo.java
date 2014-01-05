@@ -64,11 +64,11 @@ public class Photo {
     }
 
     public Double getLatitude() {
-        return location != null ? location.getLatitude() : new Double(0);
+        return location != null ? location.getLatitude() : Double.valueOf(0);
     }
 
     public Double getLongitude() {
-        return location != null ? location.getLongitude() : new Double(0);
+        return location != null ? location.getLongitude() : Double.valueOf(0);
     }
 
     public boolean hasTag(Tag tag){
@@ -91,19 +91,6 @@ public class Photo {
 
     public String getKeywords(){
         return Tag.getString(keywords);
-//        List<Tag> allKeywords = new ArrayList<Tag>();
-//
-//        if(keywords != null){
-//            allKeywords.addAll(keywords);
-//        }
-//
-//        String keywordString = Tag.getString(allKeywords);
-//
-////        if(location != null && location.getName() != null && location.getName() != ""){
-////            keywordString += ", "+location.getName();
-////        }
-//
-//        return keywordString;
     }
 
     public String getPrinting(){

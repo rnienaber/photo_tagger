@@ -33,13 +33,11 @@ public class CountriesListAdapter extends SimpleExpandableListAdapter {
 
     public CountriesListAdapter(Context context,
                                 List<? extends Map<String, ?>> groupData,
-                                int groupLayout,
                                 String[] groupFrom,
                                 int[] groupTo,
-                                List<? extends List<Area>> childData,
-                                int childLayout) {
+                                List<? extends List<Area>> childData) {
 
-        super(context, groupData, groupLayout, groupFrom, groupTo, null, childLayout, null, null);
+        super(context, groupData, R.layout.country_row, groupFrom, groupTo, null, R.layout.area_row, null, null);
         this.childData = childData;
         this.context = context;
     }

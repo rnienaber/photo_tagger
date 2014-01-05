@@ -36,11 +36,9 @@ public class ManagePhotos extends ExpandableListActivity {
         adapter = new FileListAdapter(
                 this,
                 groupData,
-                R.layout.folder_row,         //group layout
                 new String[] { KEY1 },                            //group from
                 new int[] { R.id.folder_name, android.R.id.text2 },   //group to
-                childData,
-                R.layout.file_row         //child layout
+                childData
         );
 
         setContentView(R.layout.manage_photos);
@@ -52,12 +50,12 @@ public class ManagePhotos extends ExpandableListActivity {
         Bundle bundle = intent.getExtras();
         if(bundle != null){
             String folderToLoad = (String)bundle.get("folder");
-            if(folderToLoad != null && folderToLoad != ""){
+            if(folderToLoad != null && !folderToLoad.equals("")){
                 currentPath = folderToLoad;
             }
         }
 
-        if(currentPath != ""){
+        if(!currentPath.equals("")){
             return currentPath;
         }else{
             return FileHelper.ROOT;
@@ -71,9 +69,7 @@ public class ManagePhotos extends ExpandableListActivity {
         childData.clear();
 
         for(File file : files){
-            if(file.isFile()){
-
-            }else{
+            if(!file.isFile()){
                 Map<String, String> parentMap = new HashMap<String, String>();
                 groupData.add(parentMap);
                 parentMap.put(KEY1, file.getName());

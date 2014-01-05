@@ -33,13 +33,11 @@ public class FileListAdapter extends SimpleExpandableListAdapter {
 
     public FileListAdapter(Context context,
                            List<? extends Map<String, ?>> groupData,
-                           int groupLayout,
                            String[] groupFrom,
                            int[] groupTo,
-                           List<? extends List<File>> childData,
-                           int childLayout) {
+                           List<? extends List<File>> childData) {
 
-        super(context, groupData, groupLayout, groupFrom, groupTo, null, childLayout, null, null);
+        super(context, groupData, R.layout.folder_row, groupFrom, groupTo, null, R.layout.file_row, null, null);
         this.childData = childData;
         this.context = context;
     }

@@ -33,42 +33,9 @@ public class AreaService {
         }
     }
 
-//    public Area getArea(String name){
-//        SQLiteDatabase database = repository.openReadable();
-//
-//        try{
-//            Area area = repository.findAllBy("name", name.trim(), database).get(0);
-//            List<Location> locations = locationRepository.findAllBy("area_id", area.getId(), database);
-//            area.setLocations(locations);
-//            return area;
-//        }finally{
-//            database.close();
-//        }
-//    }
-
-//    public List<Area> getAllAreas(){
-//        database.open();
-//        List<Area> areas = database.getAllAreas();
-//        database.close();
-//
-//        for(Area area : areas){
-//            List<Location> locations = new LocationService(context).getAllLocationsForArea(area);
-//            area.setLocations(locations);
-//        }
-//
-//        return areas;
-//    }
-
     public List<Area> getAllAreasForCountry(Country country){
         return repository.findAllBy("country_id", country.getId());
     }
-
-//    public List<Area> getAllAreasForCountry(Long countryId){
-//        database.open();
-//        List<Area> result = database.getAllAreasForCountry(countryId);
-//        database.close();
-//        return result;
-//    }
 
     public void addArea(Area area){
         Long id = repository.insert(area);

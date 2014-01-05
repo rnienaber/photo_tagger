@@ -33,7 +33,7 @@ public class HomeActivity extends Activity {
         manageTagsButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
                 Log.i(HomeActivity.APP_NAME, "Clicked on manage tags.");
-                Intent i = new Intent(view.getContext(), ManageCategoriesAndTagsActivity.class);
+                Intent i = new Intent(view.getContext(), ManageCategoriesActivity.class);
                 startActivity(i);
             }
         });

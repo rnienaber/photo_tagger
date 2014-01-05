@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+import com.therandomist.photo_tagger.HomeActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +14,10 @@ import java.util.List;
 public abstract class Repository<T>{
 
     protected final String tableName;
-    private final Context context;
     private final DatabaseHelper helper;
     private final String defaultOrderBy;
 
     public Repository(Context context, String tableName, String defaultOrderBy){
-        this.context = context;
         this.helper = new DatabaseHelper(context);
         this.tableName = tableName;
         this.defaultOrderBy = defaultOrderBy;
@@ -52,6 +52,8 @@ public abstract class Repository<T>{
     }
 
     public List<T> findAllBy(String columnName, Object value, SQLiteDatabase db){
+        Log.i(HomeActivity.APP_NAME, "Find all by: "+columnName+ " = "+ value);
+
         List<T> results = new ArrayList<T>();
         Cursor cursor = null;
 

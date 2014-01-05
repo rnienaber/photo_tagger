@@ -1,5 +1,6 @@
 package com.therandomist.photo_tagger.service;
 
+import android.os.Environment;
 import android.util.Log;
 import com.therandomist.photo_tagger.HomeActivity;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class FileHelper {
 
-    public static final String ROOT = "/mnt/sdcard/photos";
+    public static final String ROOT = Environment.getExternalStorageDirectory().getPath() +"/photos";
 
     public List<File> getAllFiles(String path){
         File file = new File(path);

@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/save_button"
-            android:layout_below="@id/map"/>
+            android:layout_below="@id/map"
+            android:visibility="invisible"/>
 
 </RelativeLayout>

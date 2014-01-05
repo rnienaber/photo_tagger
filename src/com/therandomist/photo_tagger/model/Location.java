@@ -36,11 +36,21 @@ public class Location {
         return longitude;
     }
 
+    public Long getId() { return id; }
+
     public void setId(Long id) {
         this.id = id;
     }
 
     public Area getArea() {
         return area;
+    }
+
+    public Long getAreaId() {
+        return areaId;
+    }
+
+    public void setArea(Area area) {
+        this.area = area;
     }
 }

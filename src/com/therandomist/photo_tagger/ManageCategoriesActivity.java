@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ManageCategoriesAndTagsActivity extends ExpandableListActivity {
+public class ManageCategoriesActivity extends ExpandableListActivity {
     private static final String KEY1 = "KEY1";
 
     private CategoriesListAdapter adapter;
@@ -39,11 +39,9 @@ public class ManageCategoriesAndTagsActivity extends ExpandableListActivity {
         adapter = new CategoriesListAdapter(
                 this,
                 groupData,
-                R.layout.tag_group,         //group layout
                 new String[] { KEY1 },                            //group from
                 new int[] { R.id.category_name, android.R.id.text2 },   //group to
-                childData,
-                R.layout.tag_row         //child layout
+                childData
         );
 
         setContentView(R.layout.manage_tags_and_categories);

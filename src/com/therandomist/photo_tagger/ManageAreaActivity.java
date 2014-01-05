@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import com.therandomist.photo_tagger.adapter.LocationListAdapter;
 import com.therandomist.photo_tagger.model.Area;
@@ -90,12 +91,26 @@ public class ManageAreaActivity  extends ListActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_location:
-                Intent intent = new Intent(getApplicationContext(), AddLocationActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LocationActivity.class);
                 intent.putExtra("areaId", area.getId());
+                intent.putExtra("state", "create");
                 startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        Location location = adapter.getItem(position);
+
+        if(location != null){
+            Intent i = new Intent(this, LocationActivity.class);
+            i.putExtra("locationId", location.getId());
+            i.putExtra("state", "view");
+            startActivity(i);
         }
     }
 }

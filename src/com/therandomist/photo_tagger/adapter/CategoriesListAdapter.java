@@ -33,13 +33,11 @@ public class CategoriesListAdapter extends SimpleExpandableListAdapter {
 
     public CategoriesListAdapter(Context context,
                                  List<? extends Map<String, ?>> groupData,
-                                 int groupLayout,
                                  String[] groupFrom,
                                  int[] groupTo,
-                                 List<? extends List<Tag>> childData,
-                                 int childLayout) {
+                                 List<? extends List<Tag>> childData) {
 
-        super(context, groupData, groupLayout, groupFrom, groupTo, null, childLayout, null, null);
+        super(context, groupData, R.layout.tag_group, groupFrom, groupTo, null, R.layout.tag_row, null, null);
         this.childData = childData;
         this.context = context;
     }

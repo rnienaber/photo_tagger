@@ -60,6 +60,7 @@ public class PhotoActivity extends Activity {
         loadPrintingTags();
         loadKeywordTags();
         loadLocationText();
+        loadNotes();
     }
     
     public void loadPeopleTags(){
@@ -67,8 +68,6 @@ public class PhotoActivity extends Activity {
         if(peopleTagsView != null){
             peopleTagsView.setText(photo.getPeople());
         }
-
-
     }
 
     public void loadPrintingTags(){
@@ -89,6 +88,13 @@ public class PhotoActivity extends Activity {
         TextView locationTextView = (TextView) findViewById(R.id.location_text);
         if(locationTextView != null){
             locationTextView.setText(photo.getLocationName());
+        }
+    }
+
+    public void loadNotes(){
+        TextView notesTextView = (TextView) findViewById(R.id.notes_text);
+        if(notesTextView != null){
+            notesTextView.setText(photo.getNotes());
         }
     }
 
@@ -113,6 +119,11 @@ public class PhotoActivity extends Activity {
                 i.putExtra("state", "photo");
                 startActivityForResult(i, ManageCountriesActivity.IDENTIFIER);
                 return true;
+            case R.id.add_notes:
+                Intent ni = new Intent(getApplicationContext(), AddNotesActivity.class);
+                ni.putExtra("photoPath", photoPath);
+                startActivity(ni);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -135,7 +146,6 @@ public class PhotoActivity extends Activity {
                     photo.setLocation(location);
                     photoService.savePhoto(photo);
                     loadLocationText();
-
                 }
                 break;
         }

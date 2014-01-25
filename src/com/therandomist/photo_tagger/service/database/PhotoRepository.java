@@ -16,6 +16,7 @@ public class PhotoRepository extends Repository<Photo>{
     public static final String DATABASE_CREATE = "create table photo (_id integer primary key autoincrement, "
             + " filename text not null,"
             + " folder text,"
+            + " notes text,"
             + " latitude real, "
             + " longitude real, "
             + " location_name text, "
@@ -62,6 +63,7 @@ public class PhotoRepository extends Repository<Photo>{
 
         String filename = cursor.getString(cursor.getColumnIndex("filename"));
         String folder = cursor.getString(cursor.getColumnIndex("folder"));
+        String notes = cursor.getString(cursor.getColumnIndex("notes"));
 
         Double latitude = cursor.getDouble(cursor.getColumnIndex("latitude"));
         Double longitude = cursor.getDouble(cursor.getColumnIndex("longitude"));
@@ -72,13 +74,14 @@ public class PhotoRepository extends Repository<Photo>{
         String keywordsString = cursor.getString(cursor.getColumnIndex("keywords"));
         String printingString = cursor.getString(cursor.getColumnIndex("printing"));
 
-        return new Photo(id, filename, folder, gpsLocation, peopleString, keywordsString, printingString);
+        return new Photo(id, filename, folder, notes, gpsLocation, peopleString, keywordsString, printingString);
     }
 
     @Override
     protected void buildContentValues(Photo photo, ContentValues values) {
         values.put("filename", photo.getFilename());
         values.put("folder", photo.getFolder());
+        values.put("notes", photo.getNotes());
         values.put("latitude", photo.getLatitude());
         values.put("longitude", photo.getLongitude());
         values.put("location_name", photo.getLocationName());

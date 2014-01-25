@@ -32,6 +32,7 @@
         <activity android:name=".AddAreaActivity" android:label="Add Areas"/>
         <activity android:name=".ManageAreaActivity" android:label="Manage Areas"/>
         <activity android:name=".LocationActivity" android:label="Add Location"/>
+        <activity android:name=".AddNotesActivity" android:label="Add Notes"/>
 
 
         <meta-data android:name="com.google.android.gms.version"

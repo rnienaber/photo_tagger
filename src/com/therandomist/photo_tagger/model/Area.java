@@ -45,7 +45,15 @@ public class Area {
         return name;
     }
 
+    public Long getCountryId() {
+        return countryId;
+    }
+
     public Country getCountry() {
         return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
     }
 }

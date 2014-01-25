@@ -23,7 +23,7 @@
 
     <TextView
             android:id="@+id/people"
-            android:layout_width="wrap_content"
+            android:layout_width="85dp"
             android:layout_height="wrap_content"
             android:paddingLeft="3sp"
             android:textSize="15dp"
@@ -34,62 +34,90 @@
             android:id="@+id/people_tags_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="2sp"
             android:paddingLeft="3sp"
             android:textSize="12dp"
-            android:layout_below="@id/people"/>
+            android:layout_toRightOf="@id/people"
+            android:layout_below="@id/photo"/>
 
     <TextView
             android:id="@+id/keywords"
-            android:layout_width="wrap_content"
+            android:layout_width="85dp"
             android:layout_height="wrap_content"
             android:paddingTop="7sp"
             android:paddingLeft="3sp"
             android:textSize="15dp"
             android:text="@string/keywords"
-            android:layout_below="@id/people_tags_text"/>
+            android:layout_below="@id/people"/>
 
     <TextView
             android:id="@+id/keyword_tags_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="9sp"
             android:paddingLeft="3sp"
             android:textSize="12dp"
-            android:layout_below="@id/keywords"/>
+            android:layout_toRightOf="@id/keywords"
+            android:layout_below="@id/people"/>
 
     <TextView
             android:id="@+id/location"
-            android:layout_width="wrap_content"
+            android:layout_width="85dp"
             android:layout_height="wrap_content"
             android:paddingTop="7sp"
             android:paddingLeft="3sp"
             android:textSize="15dp"
             android:text="@string/location"
-            android:layout_below="@id/keyword_tags_text"/>
+            android:layout_below="@id/keywords"/>
 
     <TextView
             android:id="@+id/location_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="3sp"
+            android:paddingTop="9sp"
             android:textSize="12dp"
-            android:layout_below="@id/location"/>
+            android:layout_toRightOf="@id/location"
+            android:layout_below="@id/keywords"/>
 
     <TextView
             android:id="@+id/printing"
-            android:layout_width="wrap_content"
+            android:layout_width="85dp"
             android:layout_height="wrap_content"
             android:paddingTop="7sp"
             android:paddingLeft="3sp"
             android:textSize="15dp"
             android:text="@string/printing"
-            android:layout_below="@id/location_text"/>
+            android:layout_below="@id/location"/>
 
     <TextView
             android:id="@+id/printing_tags_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="3sp"
+            android:paddingTop="9sp"
             android:textSize="12dp"
+            android:layout_toRightOf="@id/printing"
+            android:layout_below="@id/location"/>
+
+    <TextView
+            android:id="@+id/notes"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="7sp"
+            android:paddingLeft="3sp"
+            android:textSize="15dp"
+            android:text="@string/notes"
+            android:layout_below="@id/printing"/>
+
+    <TextView
+            android:id="@+id/notes_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="3sp"
+            android:paddingTop="9sp"
+            android:textSize="12dp"
+            android:layout_toRightOf="@id/notes"
             android:layout_below="@id/printing"/>
 
 </RelativeLayout>

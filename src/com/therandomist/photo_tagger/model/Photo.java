@@ -9,6 +9,7 @@ public class Photo {
     Long id;
     String filename;
     String folder;
+    String notes;
     Location location;
     List<Tag> people;
     List<Tag> keywords;
@@ -18,20 +19,22 @@ public class Photo {
     String keywordString;
     String printingString;
 
-    public Photo(Long id, String filename, String folder, Location location, List<Tag> people, List<Tag> keywords, List<Tag> printing) {
+    public Photo(Long id, String filename, String folder, String notes, Location location, List<Tag> people, List<Tag> keywords, List<Tag> printing) {
         this.id = id;
         this.filename = filename;
         this.folder = folder;
+        this.notes = notes;
         this.location = location;
         this.people = people;
         this.keywords = keywords;
         this.printing = printing;
     }
 
-    public Photo(Long id, String filename, String folder, Location location, String peopleString, String keywordString, String printingString) {
+    public Photo(Long id, String filename, String folder, String notes, Location location, String peopleString, String keywordString, String printingString) {
         this.id = id;
         this.filename = filename;
         this.folder = folder;
+        this.notes = notes;
         this.location = location;
         this.peopleString = peopleString;
         this.keywordString = keywordString;
@@ -119,6 +122,14 @@ public class Photo {
 
     public void removeKeywordTag(Tag tag){
         keywords.remove(tag);
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public void setId(Long id) {

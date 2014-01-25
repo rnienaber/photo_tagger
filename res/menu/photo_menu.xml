@@ -8,4 +8,5 @@
     <item android:id="@+id/add_keywords" android:title="@string/add_keywords"/>
     <item android:id="@+id/set_location" android:title="@string/set_location"/>
     <item android:id="@+id/set_printing" android:title="@string/set_printing"/>
+    <item android:id="@+id/add_notes" android:title="@string/add_notes"/>
 </menu>

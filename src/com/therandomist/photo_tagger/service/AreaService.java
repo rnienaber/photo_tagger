@@ -6,6 +6,7 @@ import com.therandomist.photo_tagger.model.Area;
 import com.therandomist.photo_tagger.model.Country;
 import com.therandomist.photo_tagger.model.Location;
 import com.therandomist.photo_tagger.service.database.AreaRepository;
+import com.therandomist.photo_tagger.service.database.CountryRepository;
 import com.therandomist.photo_tagger.service.database.LocationRepository;
 
 import java.util.List;
@@ -14,10 +15,12 @@ public class AreaService {
 
     private AreaRepository repository;
     private LocationRepository locationRepository;
+    private CountryRepository countryRepository;
 
     public AreaService(Context context) {
         repository = new AreaRepository(context);
         locationRepository = new LocationRepository(context);
+        countryRepository = new CountryRepository(context);
     }
 
     public Area getArea(Long areaId){
@@ -27,6 +30,8 @@ public class AreaService {
             Area area = repository.findAllBy("_id", areaId, database).get(0);
             List<Location> locations = locationRepository.findAllBy("area_id", area.getId(), database);
             area.setLocations(locations);
+            Country country = countryRepository.find(area.getCountryId());
+            area.setCountry(country);
             return area;
         }finally{
             database.close();

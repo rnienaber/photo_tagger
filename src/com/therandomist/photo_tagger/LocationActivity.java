@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.therandomist.photo_tagger.model.Area;
+import com.therandomist.photo_tagger.model.Country;
 import com.therandomist.photo_tagger.model.Location;
 import com.therandomist.photo_tagger.service.AreaService;
 import com.therandomist.photo_tagger.service.LocationService;
@@ -31,6 +32,7 @@ public class LocationActivity extends FragmentActivity  {
     private GoogleMap map;
     private Circle circle;
     private LocationService service;
+    private Area area;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +43,16 @@ public class LocationActivity extends FragmentActivity  {
         Bundle bundle = intent.getExtras();
 
         setContentView(R.layout.location);
+        AreaService areaService = new AreaService(getApplicationContext());
+
+        Long areaId = (Long)bundle.get("areaId");
+        area = areaService.getArea(areaId);
 
         String state = (String)bundle.get("state");
 
+
+
         if(state.equalsIgnoreCase(CREATE)){
-            Long areaId = (Long)bundle.get("areaId");
-            AreaService areaService = new AreaService(getApplicationContext());
-            Area area = areaService.getArea(areaId);
             setupCreateView(area);
         }else{
             Long locationId = (Long)bundle.get("locationId");
@@ -114,14 +119,7 @@ public class LocationActivity extends FragmentActivity  {
                 double latitude = map.getCameraPosition().target.latitude;
                 double longitude = map.getCameraPosition().target.longitude;
                 String name = nameField.getText().toString();
-
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("name", name);
-                resultIntent.putExtra("latitude", latitude);
-                resultIntent.putExtra("longitude", longitude);
-                setResult(Activity.RESULT_OK, resultIntent);
-
-                finish();
+                finishActivity(name, latitude, longitude);
             }
         });
 
@@ -133,20 +131,25 @@ public class LocationActivity extends FragmentActivity  {
                 double latitude = map.getCameraPosition().target.latitude;
                 double longitude = map.getCameraPosition().target.longitude;
                 String name = nameField.getText().toString();
-
                 service.addLocation(new Location(name, latitude, longitude, location.getArea()));
-
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("name", name);
-                resultIntent.putExtra("latitude", latitude);
-                resultIntent.putExtra("longitude", longitude);
-                setResult(Activity.RESULT_OK, resultIntent);
-
-                finish();
+                finishActivity(name, latitude, longitude);
             }
         });
+    }
 
+    public void finishActivity(String name, double latitude, double longitude){
+        Intent resultIntent = new Intent();
 
+        Country country = area.getCountry();
+
+        String displayName = area.getName()+ " - "+name+", ("+country.getName()+")" ;
+
+        resultIntent.putExtra("name", displayName);
+        resultIntent.putExtra("latitude", latitude);
+        resultIntent.putExtra("longitude", longitude);
+        setResult(Activity.RESULT_OK, resultIntent);
+
+        finish();
     }
 
     public void setupMap(Location location){

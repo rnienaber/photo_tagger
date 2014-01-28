@@ -9,7 +9,9 @@ import com.therandomist.photo_tagger.service.database.PhotoRepository;
 import com.therandomist.photo_tagger.service.database.TagRepository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PhotoService {
 
@@ -44,6 +46,17 @@ public class PhotoService {
         }
 
         return photo;
+    }
+
+    public Map<String, Photo> getPhotosByPath(List<String> paths){
+        List<Photo> photos = repository.findByPath(paths);
+        Map<String, Photo> photoMap = new HashMap<String, Photo>();
+
+        for(Photo photo : photos){
+            String path = FileHelper.getPath(photo.getFolder(), photo.getFilename());
+            photoMap.put(path, photo);
+        }
+        return photoMap;
     }
 
     public void addPhoto(Photo photo){

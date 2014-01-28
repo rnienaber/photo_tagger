@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ExpandableListView;
 import com.therandomist.photo_tagger.adapter.FileListAdapter;
+import com.therandomist.photo_tagger.model.Photo;
 import com.therandomist.photo_tagger.service.FileHelper;
+import com.therandomist.photo_tagger.service.PhotoService;
 
 import java.io.File;
 import java.util.*;
@@ -18,18 +20,22 @@ public class ManagePhotos extends ExpandableListActivity {
     private FileListAdapter adapter;
     private FileHelper fileHelper;
     private List<File> files;
+    private Map<String, Photo> photoMap;
 
     private List<Map<String, String>> groupData;
     private List<List<File>> childData;
 
     private String currentPath = "";
+    private PhotoService photoService;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         fileHelper = new FileHelper();
+        photoService = new PhotoService(getApplicationContext());
         groupData = new ArrayList<Map<String, String>>();
         childData = new ArrayList<List<File>>();
+        photoMap = new HashMap<String, Photo>();
 
         loadFolders();
 
@@ -38,7 +44,8 @@ public class ManagePhotos extends ExpandableListActivity {
                 groupData,
                 new String[] { KEY1 },                            //group from
                 new int[] { R.id.folder_name, android.R.id.text2 },   //group to
-                childData
+                childData,
+                photoMap
         );
 
         setContentView(R.layout.manage_photos);
@@ -67,6 +74,9 @@ public class ManagePhotos extends ExpandableListActivity {
 
         groupData.clear();
         childData.clear();
+        photoMap.clear();
+
+        List<String> paths = new ArrayList<String>();
 
         for(File file : files){
             if(!file.isFile()){
@@ -77,7 +87,16 @@ public class ManagePhotos extends ExpandableListActivity {
                 List<File> children = Arrays.asList(file.listFiles());
                 Collections.sort(children);
                 childData.add(children);
+
+                for(File child : children){
+                    String photoPath = child.getAbsolutePath();
+                    paths.add(photoPath);
+                }
             }
+        }
+
+        if(paths.size() > 0){
+            photoMap = photoService.getPhotosByPath(paths);
         }
     }
 

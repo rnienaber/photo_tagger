@@ -25,4 +25,9 @@ public class FileHelper {
     public static String getFilename(String path){
         return path.substring(path.lastIndexOf("/")+1, path.length());
     }
+
+    public static String getPath(String folder, String filename){
+        return folder +"/"+ filename;
+    }
+
 }

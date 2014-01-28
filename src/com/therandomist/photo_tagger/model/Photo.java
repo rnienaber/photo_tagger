@@ -168,6 +168,24 @@ public class Photo {
         this.location = location;
     }
 
+    public Location getLocation() {
+        return location;
+    }
+
+    public boolean hasLocation(){
+        return getLocationName() != null && !getLocationName().equals("");
+    }
+
+    public boolean hasData(){
+        boolean hasData = false;
+
+        if(getKeywordString().length() > 0 || getPeopleString().length() > 0 || getPrintingString().length() > 0 || hasLocation()){
+            hasData = true;
+        }
+
+        return hasData;
+    }
+
     @Override
     public String toString() {
         return "Photo{" +

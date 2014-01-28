@@ -10,6 +10,10 @@ import android.util.Log;
 import com.therandomist.photo_tagger.HomeActivity;
 import com.therandomist.photo_tagger.model.Location;
 import com.therandomist.photo_tagger.model.Photo;
+import com.therandomist.photo_tagger.service.FileHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PhotoRepository extends Repository<Photo>{
 
@@ -26,6 +30,62 @@ public class PhotoRepository extends Repository<Photo>{
 
     public PhotoRepository(Context context) {
         super(context, "photo", "name");
+    }
+
+    public List<Photo> findByPath(List<String> paths){
+        Log.i(HomeActivity.APP_NAME, "Trying to fetch photos by paths");
+        SQLiteDatabase db = openReadable();
+        Cursor cursor = null;
+
+        List<String> folders = new ArrayList<String>();
+        List<String> files = new ArrayList<String>();
+
+        for(String path : paths){
+            String photoFolder = FileHelper.getFolder(path);
+            String photoFilename = FileHelper.getFilename(path);
+            if(!folders.contains(photoFolder)) folders.add(photoFolder);
+            if(!files.contains(files)) files.add(photoFilename);
+        }
+
+        String folderWhere = "";
+        for(String folder : folders){
+            if(folderWhere.equalsIgnoreCase("")){
+                folderWhere += " '"+folder+"' ";
+            }else{
+                folderWhere += ", '"+folder+"' ";
+            }
+        }
+
+        String fileWhere = "";
+        for(String file : files){
+            if(fileWhere.equalsIgnoreCase("")){
+                fileWhere += " '"+file+"' ";
+            }else{
+                fileWhere += ", '"+file+"' ";
+            }
+        }
+
+        String where = "folder in(" + folderWhere + ") AND filename in (" +fileWhere +")";
+
+        List<Photo> results = new ArrayList<Photo>();
+        try{
+            cursor = db.query(true, tableName, null, where, null, null, null, null, null);
+            if (cursor != null) {
+                cursor.moveToFirst();
+                if(cursor.getCount() > 0 && cursor.moveToFirst()){
+                    do{
+                        results.add(getFromCursor(cursor));
+                    }while(cursor.moveToNext());
+                }
+            }
+        }finally {
+            if(cursor != null){
+                cursor.close();
+            }
+            db.close();
+        }
+
+        return results;
     }
 
     public Photo findByPath(String folder, String filename){

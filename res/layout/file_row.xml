@@ -12,4 +12,10 @@
             android:paddingLeft="8sp"
             />
 
+    <ImageView
+            android:id="@+id/photo_tagged"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"/>
+
 </RelativeLayout>

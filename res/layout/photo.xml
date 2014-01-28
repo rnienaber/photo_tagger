@@ -16,7 +16,7 @@
     <ImageView
             android:id="@+id/photo"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="220dp"
             android:adjustViewBounds="true"
             android:padding="3sp"
             android:layout_below="@id/photo_file_name"/>

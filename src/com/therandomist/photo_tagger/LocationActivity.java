@@ -155,6 +155,7 @@ public class LocationActivity extends FragmentActivity  {
     public void setupMap(Location location){
         map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
         map.getUiSettings().setZoomControlsEnabled(false);
+        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
         if(location != null){
             LatLng position = new LatLng(location.getLatitude(), location.getLongitude());

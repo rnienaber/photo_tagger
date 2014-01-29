@@ -25,14 +25,11 @@ public class PhotoService {
     }
 
     public Photo getPhoto(String path){
-        String folder = FileHelper.getFolder(path);
-        String filename = FileHelper.getFilename(path);
-
-        Photo photo = repository.findByPath(folder, filename);
+        Photo photo = repository.findByPath(path);
 
         if(photo == null){
             photo = new Photo();
-            photo.setPath(path);
+            photo.setPath(FileHelper.getCorrectedPath(path));
             addPhoto(photo);
         }else{
 
@@ -48,12 +45,21 @@ public class PhotoService {
         return photo;
     }
 
-    public Map<String, Photo> getPhotosByPath(List<String> paths){
-        List<Photo> photos = repository.findByPath(paths);
+    public Map<String, Photo> getPhotosByFolders(List<String> paths){
+        List<String> folders = new ArrayList<String>();
+        for(String path : paths){
+            String folder = FileHelper.getFolder(path);
+            if(!folders.contains(folder)) folders.add(folder);
+        }
+
+        List<Photo> photos = repository.findByFolders(folders);
         Map<String, Photo> photoMap = new HashMap<String, Photo>();
 
         for(Photo photo : photos){
             String path = FileHelper.getPath(photo.getFolder(), photo.getFilename());
+
+            Log.i(HomeActivity.APP_NAME, "Adding to map: "+path);
+
             photoMap.put(path, photo);
         }
         return photoMap;

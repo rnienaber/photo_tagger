@@ -9,6 +9,7 @@ import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 import com.therandomist.photo_tagger.R;
 import com.therandomist.photo_tagger.model.Photo;
+import com.therandomist.photo_tagger.service.FileHelper;
 
 import java.io.File;
 import java.util.List;
@@ -69,7 +70,9 @@ public class FileListAdapter extends SimpleExpandableListAdapter {
         }
 
         File child = getChild(groupPosition, childPosition);
-        Photo photo = photoMap.get(child.getAbsolutePath());
+
+        String path = child.getAbsolutePath();
+        Photo photo = photoMap.get(FileHelper.getCorrectedPath(path));
 
         if(child != null){
             TextView name = (TextView) v.findViewById(R.id.child_name);
@@ -83,6 +86,15 @@ public class FileListAdapter extends SimpleExpandableListAdapter {
                     starImage.setImageResource(R.drawable.star);
                 }else if (!photo.hasData()){
                     starImage.setImageBitmap(null);
+                }
+            }
+
+            ImageView earthImage = (ImageView) v.findViewById(R.id.photo_has_location);
+            if(starImage != null && photo != null){
+                if(photo.hasLocation()){
+                    earthImage.setImageResource(R.drawable.world);
+                }else if (!photo.hasLocation()){
+                    earthImage.setImageBitmap(null);
                 }
             }
         }

@@ -32,20 +32,10 @@ public class PhotoRepository extends Repository<Photo>{
         super(context, "photo", "name");
     }
 
-    public List<Photo> findByPath(List<String> paths){
-        Log.i(HomeActivity.APP_NAME, "Trying to fetch photos by paths");
+    public List<Photo> findByFolders(List<String> folders){
+        Log.i(HomeActivity.APP_NAME, "Trying to fetch photos by folders");
         SQLiteDatabase db = openReadable();
         Cursor cursor = null;
-
-        List<String> folders = new ArrayList<String>();
-        List<String> files = new ArrayList<String>();
-
-        for(String path : paths){
-            String photoFolder = FileHelper.getFolder(path);
-            String photoFilename = FileHelper.getFilename(path);
-            if(!folders.contains(photoFolder)) folders.add(photoFolder);
-            if(!files.contains(files)) files.add(photoFilename);
-        }
 
         String folderWhere = "";
         for(String folder : folders){
@@ -56,22 +46,18 @@ public class PhotoRepository extends Repository<Photo>{
             }
         }
 
-        String fileWhere = "";
-        for(String file : files){
-            if(fileWhere.equalsIgnoreCase("")){
-                fileWhere += " '"+file+"' ";
-            }else{
-                fileWhere += ", '"+file+"' ";
-            }
-        }
+        String where = "folder in(" + folderWhere + ")";
 
-        String where = "folder in(" + folderWhere + ") AND filename in (" +fileWhere +")";
+        Log.i(HomeActivity.APP_NAME, where);
 
         List<Photo> results = new ArrayList<Photo>();
         try{
             cursor = db.query(true, tableName, null, where, null, null, null, null, null);
             if (cursor != null) {
                 cursor.moveToFirst();
+
+                Log.i(HomeActivity.APP_NAME, "Number results: "+cursor.getCount());
+
                 if(cursor.getCount() > 0 && cursor.moveToFirst()){
                     do{
                         results.add(getFromCursor(cursor));
@@ -88,7 +74,10 @@ public class PhotoRepository extends Repository<Photo>{
         return results;
     }
 
-    public Photo findByPath(String folder, String filename){
+    public Photo findByPath(String path){
+        String folder = FileHelper.getFolder(path);
+        String filename = FileHelper.getFilename(path);
+
         Log.i(HomeActivity.APP_NAME, "Trying to fetch photo: "+folder+" "+filename);
         SQLiteDatabase db = openReadable();
         Cursor cursor = null;

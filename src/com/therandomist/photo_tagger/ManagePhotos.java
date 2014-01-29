@@ -96,7 +96,7 @@ public class ManagePhotos extends ExpandableListActivity {
         }
 
         if(paths.size() > 0){
-            photoMap = photoService.getPhotosByPath(paths);
+            photoMap = photoService.getPhotosByFolders(paths);
         }
     }
 
@@ -104,15 +104,16 @@ public class ManagePhotos extends ExpandableListActivity {
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         super.onChildClick(parent, v, groupPosition, childPosition, id);
         File file = adapter.getChild(groupPosition, childPosition);
+        String path = file.getAbsolutePath();
 
         if(file != null){
             if(file.isFile()){
                 Intent i = new Intent(this, PhotoActivity.class);
-                i.putExtra("photoPath", file.getAbsolutePath());
+                i.putExtra("photoPath", path);
                 startActivity(i);
             }else{
                 Intent i = new Intent(this, ManagePhotos.class);
-                i.putExtra("folder", file.getAbsolutePath());
+                i.putExtra("folder", path);
                 startActivity(i);
             }
         }

@@ -8,9 +8,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import com.therandomist.photo_tagger.adapter.LocationListAdapter;
 import com.therandomist.photo_tagger.model.Area;
+import com.therandomist.photo_tagger.model.Country;
 import com.therandomist.photo_tagger.model.Location;
 import com.therandomist.photo_tagger.service.AreaService;
 import com.therandomist.photo_tagger.service.LocationService;
@@ -42,7 +44,18 @@ public class ManageAreaActivity  extends ListActivity {
 
         readFromBundle();
         initializeList();
+
+        getListView().setLongClickable(true);
+        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+                Location location = adapter.getItem(position);
+                startLocationActivity(location);
+                return true;
+            }
+        });
+
     }
+
 
     @Override
     protected void onResume() {
@@ -110,7 +123,17 @@ public class ManageAreaActivity  extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         Location location = adapter.getItem(position);
+        useLocation(location);
+    }
 
+    private void useLocation(Location location){
+        Country country = area.getCountry();
+        String displayName = area.getName()+ " - "+location.getName()+", ("+country.getName()+")" ;
+
+        finishActivity(displayName, location.getLatitude(), location.getLongitude());
+    }
+
+    private void startLocationActivity(Location location){
         if(location != null){
             Intent i = new Intent(this, LocationActivity.class);
             i.putExtra("locationId", location.getId());
@@ -123,10 +146,9 @@ public class ManageAreaActivity  extends ListActivity {
                 i.putExtra("state", LocationActivity.VIEW);
                 startActivity(i);
             }
-
-
         }
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -140,16 +162,19 @@ public class ManageAreaActivity  extends ListActivity {
                     String name = data.getStringExtra("name");
                     Double latitude = data.getDoubleExtra("latitude", 0);
                     Double longitude = data.getDoubleExtra("longitude", 0);
-
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra("name", name);
-                    resultIntent.putExtra("latitude", latitude);
-                    resultIntent.putExtra("longitude", longitude);
-                    setResult(Activity.RESULT_OK, resultIntent);
-
-                    finish();
+                    finishActivity(name, latitude, longitude);
                 }
                 break;
         }
+    }
+
+    private void finishActivity(String name, Double latitude, Double longitude){
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("name", name);
+        resultIntent.putExtra("latitude", latitude);
+        resultIntent.putExtra("longitude", longitude);
+        setResult(Activity.RESULT_OK, resultIntent);
+
+        finish();
     }
 }

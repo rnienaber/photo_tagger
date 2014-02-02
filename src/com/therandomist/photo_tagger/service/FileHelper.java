@@ -11,9 +11,11 @@ public class FileHelper {
     public static final String STORAGE_ROOT = Environment.getExternalStorageDirectory().getPath();
     public static final String ROOT = Environment.getExternalStorageDirectory().getPath() +"/photos";
 
-    public List<File> getAllFiles(String path){
+    public static List<File> getAllFiles(String path){
         File file = new File(path);
-        return Arrays.asList(file.listFiles());
+        File[] files = file.listFiles();
+        Arrays.sort(files);
+        return Arrays.asList(files);
     }
 
     public static String getFolder(String path){
@@ -29,8 +31,43 @@ public class FileHelper {
         return folder +"/"+ filename;
     }
 
+    public static String getPathOnDevice(String folder, String filename){
+        return STORAGE_ROOT + getPath(folder, filename);
+    }
+
     public static String getCorrectedPath(String path){
         return path.replace(STORAGE_ROOT, "");
+    }
+
+    public static String[] getPreviousAndNextPaths(String photoFolder, String photoFilename){
+        String folder = getPathOnDevice(photoFolder, "");
+        String path = getPathOnDevice(photoFolder, photoFilename);
+
+        List<File> files = getAllFiles(folder);
+
+        int previous = -1;
+        int next = -1;
+
+        for(int i=0; i< files.size(); i++ ){
+            String currentPath = files.get(i).getAbsolutePath();
+            if(currentPath.equals(path)){
+                previous = i-1;
+                next = i+1;
+                break;
+            }
+        }
+
+        String [] result = new String[]{null, null};
+        if(previous >= 0){
+            File previousFile = files.get(previous);
+            result[0] = previousFile.getAbsolutePath();
+        }
+        if(next < files.size()){
+            File nextFile = files.get(next);
+            result[1] = nextFile.getAbsolutePath();
+        }
+
+        return result;
     }
 
 }

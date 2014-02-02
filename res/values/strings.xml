@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Photo Tagger</string>
-    <string name="tag_photos">Tag Photos</string>
-    <string name="manage_tags">Manage Tags</string>
     <string name="add_category">Add category</string>
     <string name="name_label">Name</string>
     <string name="save_button">Save</string>

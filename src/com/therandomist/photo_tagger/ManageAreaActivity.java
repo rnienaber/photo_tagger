@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -132,8 +131,6 @@ public class ManageAreaActivity  extends ListActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        Log.i(HomeActivity.APP_NAME, "Manage Areas - Returning from: " + requestCode);
 
         if(!state.equalsIgnoreCase("photo")) return;
 

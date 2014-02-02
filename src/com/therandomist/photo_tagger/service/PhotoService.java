@@ -57,9 +57,6 @@ public class PhotoService {
 
         for(Photo photo : photos){
             String path = FileHelper.getPath(photo.getFolder(), photo.getFilename());
-
-            Log.i(HomeActivity.APP_NAME, "Adding to map: "+path);
-
             photoMap.put(path, photo);
         }
         return photoMap;

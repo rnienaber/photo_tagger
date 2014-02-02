@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ExpandableListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -120,8 +119,6 @@ public class ManageCountriesActivity extends ExpandableListActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        Log.i(HomeActivity.APP_NAME, "Manage Countries - Returning from: " + requestCode);
 
         if(!state.equalsIgnoreCase("photo")) return;
 

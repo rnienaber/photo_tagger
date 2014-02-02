@@ -4,22 +4,25 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.view.GestureDetectorCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.therandomist.photo_tagger.listener.PhotoGestureListener;
 import com.therandomist.photo_tagger.model.Location;
 import com.therandomist.photo_tagger.model.Photo;
 import com.therandomist.photo_tagger.service.FileHelper;
 import com.therandomist.photo_tagger.service.PhotoService;
 
-public class PhotoActivity extends Activity {
+public class PhotoActivity extends Activity{
 
     private Photo photo = null;
     private PhotoService photoService;
     private String photoPath = null;
+    private GestureDetectorCompat detector;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +31,16 @@ public class PhotoActivity extends Activity {
         setContentView(R.layout.photo);
         readFromBundle();
         loadPhoto();
+
+        detector = new GestureDetectorCompat(this, new PhotoGestureListener(this, photo));
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        this.detector.onTouchEvent(event);
+        return super.onTouchEvent(event);
+    }
+
 
     @Override
     protected void onResume() {
@@ -44,8 +56,8 @@ public class PhotoActivity extends Activity {
 
     public void loadPhoto(){
         photo = photoService.getPhoto(photoPath);
-
         ImageView photoView = (ImageView) findViewById(R.id.photo);
+
         if(photoView != null){
             BitmapDrawable d = new BitmapDrawable(getResources(), photoPath);
             photoView.setImageDrawable(d);
@@ -133,8 +145,6 @@ public class PhotoActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.i(HomeActivity.APP_NAME, "Manage Photo - Returning from: "+requestCode);
-
         switch(requestCode){
             case ManageCountriesActivity.IDENTIFIER :
                 if (resultCode == Activity.RESULT_OK){
@@ -158,4 +168,6 @@ public class PhotoActivity extends Activity {
         startActivity(i);
         return true;
     }
+
+
 }

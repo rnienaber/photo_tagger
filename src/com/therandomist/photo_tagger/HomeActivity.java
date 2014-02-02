@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import com.therandomist.photo_tagger.service.database.DatabaseHelper;
@@ -26,7 +25,6 @@ public class HomeActivity extends Activity {
         Button tagPhotosButton = (Button) findViewById(R.id.tag_photos_button);
         tagPhotosButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
-                Log.i(HomeActivity.APP_NAME, "Clicked on tag photos.");
                 Intent i = new Intent(view.getContext(), ManagePhotos.class);
                 startActivity(i);
             }
@@ -35,7 +33,6 @@ public class HomeActivity extends Activity {
         Button manageTagsButton = (Button) findViewById(R.id.manage_tags_button);
         manageTagsButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
-                Log.i(HomeActivity.APP_NAME, "Clicked on manage tags.");
                 Intent i = new Intent(view.getContext(), ManageCategoriesActivity.class);
                 startActivity(i);
             }
@@ -44,7 +41,6 @@ public class HomeActivity extends Activity {
         Button manageLocationsButton = (Button) findViewById(R.id.manage_locations_button);
         manageLocationsButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
-                Log.i(HomeActivity.APP_NAME, "Clicked on manage locations.");
                 Intent i = new Intent(view.getContext(), ManageCountriesActivity.class);
                 i.putExtra("state", "manage");
                 startActivity(i);
@@ -54,7 +50,6 @@ public class HomeActivity extends Activity {
         Button backupButton = (Button) findViewById(R.id.backup_database_button);
         backupButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
-                Log.i(HomeActivity.APP_NAME, "Clicked on backup database.");
                 emailDatabaseFile();
             }
         });

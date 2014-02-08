@@ -2,11 +2,17 @@ package com.therandomist.photo_tagger;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import com.therandomist.photo_tagger.model.Photo;
+import com.therandomist.photo_tagger.service.FileHelper;
+import com.therandomist.photo_tagger.service.PhotoService;
 import com.therandomist.photo_tagger.service.database.DatabaseHelper;
 
 public class HomeActivity extends Activity {
@@ -53,6 +59,19 @@ public class HomeActivity extends Activity {
                 emailDatabaseFile();
             }
         });
+
+        ImageView photoView = (ImageView) findViewById(R.id.photo);
+
+        if(photoView != null){
+            PhotoService photoService = new PhotoService(getApplicationContext());
+            Photo photo = photoService.getHomePagePhoto();
+            if(photo != null){
+                String photoPath = photo.getPath();
+                Log.i(HomeActivity.APP_NAME, "Loading: "+photoPath);
+                BitmapDrawable d = new BitmapDrawable(getResources(), FileHelper.getPathOnDevice(photo.getFolder(), photo.getFilename()));
+                photoView.setImageDrawable(d);
+            }
+        }
     }
 
     public void emailDatabaseFile(){

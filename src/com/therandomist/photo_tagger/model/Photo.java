@@ -41,15 +41,6 @@ public class Photo {
         this.printingString = printingString;
     }
 
-    public Photo(String filename, String folder, Location location, List<Tag> people, List<Tag> keywords, List<Tag> printing) {
-        this.filename = filename;
-        this.folder = folder;
-        this.location = location;
-        this.people = people;
-        this.keywords = keywords;
-        this.printing = printing;
-    }
-
     public Photo(){
     }
 
@@ -64,6 +55,10 @@ public class Photo {
 
     public String getFolder() {
         return folder;
+    }
+
+    public String getPath(){
+        return FileHelper.getPath(folder, filename);
     }
 
     public Double getLatitude() {
@@ -195,5 +190,9 @@ public class Photo {
                 ", keywords=" + keywords +
                 ", printing=" + printing +
                 '}';
+    }
+
+    public boolean isDeleted() {
+        return printingString.toLowerCase().contains("delete");
     }
 }

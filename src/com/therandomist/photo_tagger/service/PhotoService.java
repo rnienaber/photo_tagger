@@ -8,10 +8,7 @@ import com.therandomist.photo_tagger.model.Tag;
 import com.therandomist.photo_tagger.service.database.PhotoRepository;
 import com.therandomist.photo_tagger.service.database.TagRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PhotoService {
 
@@ -45,21 +42,9 @@ public class PhotoService {
         return photo;
     }
 
-    public Map<String, Photo> getPhotosByFolders(List<String> paths){
-        List<String> folders = new ArrayList<String>();
-        for(String path : paths){
-            String folder = FileHelper.getFolder(path);
-            if(!folders.contains(folder)) folders.add(folder);
-        }
-
-        List<Photo> photos = repository.findByFolders(folders);
-        Map<String, Photo> photoMap = new HashMap<String, Photo>();
-
-        for(Photo photo : photos){
-            String path = FileHelper.getPath(photo.getFolder(), photo.getFilename());
-            photoMap.put(path, photo);
-        }
-        return photoMap;
+    public List<Photo> getPhotosForFolder(String folder){
+        String correctedFolder = FileHelper.getCorrectedFolder(folder);
+        return repository.findAllBy("folder", correctedFolder);
     }
 
     public void addPhoto(Photo photo){
@@ -76,6 +61,14 @@ public class PhotoService {
         }else{
             addPhoto(photo);
         }
+    }
+
+    public Photo getHomePagePhoto() {
+        Map<String, List<String>> tagMap = new HashMap<String, List<String>>();
+        tagMap.put(PhotoRepository.PRINTING, Arrays.asList("enlargement"));
+        List<Photo> photos = repository.findByTags(tagMap);
+        int random = new Random().nextInt(photos.size());
+        return photos.get(random);
     }
 
     private List<Tag> convertNamesToTag(String names){

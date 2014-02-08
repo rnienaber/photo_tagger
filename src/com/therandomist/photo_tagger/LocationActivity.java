@@ -87,14 +87,6 @@ public class LocationActivity extends FragmentActivity  {
         });
     }
 
-    public void setupViewView(Location location){
-        setTitle("View Location in " + location.getArea().getName());
-        setupMap(location);
-
-        final EditText nameField = (EditText) findViewById(R.id.name_textfield);
-        nameField.setText(location.getName());
-    }
-
     public void setupUseView(final Location location){
         setTitle("Use Location in " + location.getArea().getName());
         setupMap(location);
@@ -115,11 +107,7 @@ public class LocationActivity extends FragmentActivity  {
         applyButton.setVisibility(View.VISIBLE);
         applyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-
-                double latitude = map.getCameraPosition().target.latitude;
-                double longitude = map.getCameraPosition().target.longitude;
-                String name = nameField.getText().toString();
-                finishActivity(name, latitude, longitude);
+                applyLocation(map, nameField, location, false);
             }
         });
 
@@ -127,14 +115,29 @@ public class LocationActivity extends FragmentActivity  {
         saveAndApplyButton.setVisibility(View.VISIBLE);
         saveAndApplyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-
-                double latitude = map.getCameraPosition().target.latitude;
-                double longitude = map.getCameraPosition().target.longitude;
-                String name = nameField.getText().toString();
-                service.addLocation(new Location(name, latitude, longitude, location.getArea()));
-                finishActivity(name, latitude, longitude);
+                applyLocation(map, nameField, location, true);
             }
         });
+    }
+
+    public void setupViewView(Location location){
+        setTitle("View Location in " + location.getArea().getName());
+        setupMap(location);
+
+        final EditText nameField = (EditText) findViewById(R.id.name_textfield);
+        nameField.setText(location.getName());
+    }
+
+    public void applyLocation(GoogleMap map, EditText nameField, Location location, boolean save){
+        double latitude = map.getCameraPosition().target.latitude;
+        double longitude = map.getCameraPosition().target.longitude;
+        String name = nameField.getText().toString();
+
+        if(save){
+            service.addLocation(new Location(name, latitude, longitude, location.getArea()));
+        }
+
+        finishActivity(name, latitude, longitude);
     }
 
     public void finishActivity(String name, double latitude, double longitude){

@@ -14,8 +14,9 @@ import java.io.File;
 import java.util.*;
 
 public class ManagePhotos extends ExpandableListActivity {
-    private static final String KEY1 = "KEY1";
-
+    private static final String NAME = "NAME";
+    private static final String NUMBER_PHOTOS = "NUMBER_PHOTOS";
+    private static final String NUMBER_TAGGED = "NUMBER_TAGGED";
 
     private FileListAdapter adapter;
     private FileHelper fileHelper;
@@ -42,8 +43,6 @@ public class ManagePhotos extends ExpandableListActivity {
         adapter = new FileListAdapter(
                 this,
                 groupData,
-                new String[] { KEY1 },                            //group from
-                new int[] { R.id.folder_name, android.R.id.text2 },   //group to
                 childData,
                 photoMap
         );
@@ -76,27 +75,26 @@ public class ManagePhotos extends ExpandableListActivity {
         childData.clear();
         photoMap.clear();
 
-        List<String> paths = new ArrayList<String>();
-
         for(File file : files){
             if(!file.isFile()){
                 Map<String, String> parentMap = new HashMap<String, String>();
                 groupData.add(parentMap);
-                parentMap.put(KEY1, file.getName());
+                parentMap.put(NAME, file.getName());
 
                 List<File> children = Arrays.asList(file.listFiles());
                 Collections.sort(children);
                 childData.add(children);
 
-                for(File child : children){
-                    String photoPath = child.getAbsolutePath();
-                    paths.add(photoPath);
+                List<Photo> photos = photoService.getPhotosForFolder(file.getAbsolutePath());
+                int completed = 0;
+                for(Photo photo : photos){
+                    photoMap.put(FileHelper.getPath(photo.getFolder(), photo.getFilename()), photo);
+                    if(photo.hasData() && ( photo.isDeleted() || photo.hasLocation())) completed++;
                 }
-            }
-        }
 
-        if(paths.size() > 0){
-            photoMap = photoService.getPhotosByFolders(paths);
+                parentMap.put(NUMBER_PHOTOS, photos.size()+"");
+                parentMap.put(NUMBER_TAGGED, completed+"");
+            }
         }
     }
 

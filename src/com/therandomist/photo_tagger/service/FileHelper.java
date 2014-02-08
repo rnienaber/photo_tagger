@@ -23,6 +23,10 @@ public class FileHelper {
         return getCorrectedPath(fullPath);
     }
 
+    public static String getCorrectedFolder(String folder){
+        return getCorrectedPath(folder);
+    }
+
     public static String getFilename(String path){
         return path.substring(path.lastIndexOf("/")+1, path.length());
     }

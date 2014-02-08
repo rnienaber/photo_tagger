@@ -14,8 +14,11 @@ import com.therandomist.photo_tagger.service.FileHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PhotoRepository extends Repository<Photo>{
+
+    public static final String PRINTING = "printing";
 
     public static final String DATABASE_CREATE = "create table photo (_id integer primary key autoincrement, "
             + " filename text not null,"
@@ -29,49 +32,32 @@ public class PhotoRepository extends Repository<Photo>{
             + " printing text); ";
 
     public PhotoRepository(Context context) {
-        super(context, "photo", "name");
+        super(context, "photo", "filename");
     }
 
-    public List<Photo> findByFolders(List<String> folders){
-        Log.i(HomeActivity.APP_NAME, "Trying to fetch photos by folders");
+    public List<Photo> findByTags(Map<String, List<String>> tagList){
+        Log.i(HomeActivity.APP_NAME, "Trying to fetch photos by tags");
         SQLiteDatabase db = openReadable();
         Cursor cursor = null;
 
-        String folderWhere = "";
-        for(String folder : folders){
-            if(folderWhere.equalsIgnoreCase("")){
-                folderWhere += " '"+folder+"' ";
-            }else{
-                folderWhere += ", '"+folder+"' ";
-            }
-        }
+        String where = "";
 
-        String where = "folder in(" + folderWhere + ")";
+        for(Map.Entry<String, List<String>> entry : tagList.entrySet()){
+            String tagType = entry.getKey();
+            List<String> tagNames = entry.getValue();
 
-        Log.i(HomeActivity.APP_NAME, where);
+            for(String tag : tagNames){
+                String clause = tagType +" like '%"+tag+"%' ";
 
-        List<Photo> results = new ArrayList<Photo>();
-        try{
-            cursor = db.query(true, tableName, null, where, null, null, null, null, null);
-            if (cursor != null) {
-                cursor.moveToFirst();
-
-                Log.i(HomeActivity.APP_NAME, "Number results: "+cursor.getCount());
-
-                if(cursor.getCount() > 0 && cursor.moveToFirst()){
-                    do{
-                        results.add(getFromCursor(cursor));
-                    }while(cursor.moveToNext());
+                if(where.equals("")){
+                    where = clause;
+                }else{
+                    where += " AND "+clause;
                 }
             }
-        }finally {
-            if(cursor != null){
-                cursor.close();
-            }
-            db.close();
         }
 
-        return results;
+        return loadMany(cursor, db, where);
     }
 
     public Photo findByPath(String path){
@@ -98,6 +84,45 @@ public class PhotoRepository extends Repository<Photo>{
         }
 
         return null;
+    }
+
+    private List<Photo> loadMany(Cursor cursor, SQLiteDatabase db, String where){
+        List<Photo> results = new ArrayList<Photo>();
+        try{
+            cursor = db.query(true, tableName, null, where, null, null, null, null, null);
+            if (cursor != null) {
+                results = getManyFromCursor(cursor);
+            }
+        }finally {
+            if(cursor != null){
+                cursor.close();
+            }
+            db.close();
+        }
+        return results;
+    }
+
+    private String getInClause(List<String> items){
+        String inClause = "";
+        for(String item : items){
+            if(inClause.equalsIgnoreCase("")){
+                inClause += " '"+item+"' ";
+            }else{
+                inClause += ", '"+item+"' ";
+            }
+        }
+        return inClause;
+    }
+
+    private List<Photo> getManyFromCursor(Cursor cursor){
+        List<Photo> results = new ArrayList<Photo>();
+        cursor.moveToFirst();
+        if(cursor.getCount() > 0 && cursor.moveToFirst()){
+            do{
+                results.add(getFromCursor(cursor));
+            }while(cursor.moveToNext());
+        }
+        return results;
     }
 
     protected Photo getFromCursor(Cursor cursor){
@@ -138,6 +163,7 @@ public class PhotoRepository extends Repository<Photo>{
         values.put("keywords", photo.getKeywords());
         values.put("printing", photo.getPrinting());
     }
+
 
 
 }

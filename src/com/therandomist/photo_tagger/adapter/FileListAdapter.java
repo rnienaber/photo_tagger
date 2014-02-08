@@ -12,6 +12,7 @@ import com.therandomist.photo_tagger.model.Photo;
 import com.therandomist.photo_tagger.service.FileHelper;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,25 +24,9 @@ public class FileListAdapter extends SimpleExpandableListAdapter {
 
     public FileListAdapter(Context context,
                            List<? extends Map<String, ?>> groupData,
-                           int groupLayout,
-                           String[] groupFrom,
-                           int[] groupTo,
-                           List<? extends List<? extends Map<String, ?>>> childData,
-                           int childLayout,
-                           String[] childFrom,
-                           int[] childTo) {
-
-        super(context, groupData, groupLayout, groupFrom, groupTo, childData, childLayout, childFrom, childTo);
-        this.context = context;
-    }
-
-    public FileListAdapter(Context context,
-                           List<? extends Map<String, ?>> groupData,
-                           String[] groupFrom,
-                           int[] groupTo,
                            List<? extends List<File>> childData, Map<String, Photo> photos) {
 
-        super(context, groupData, R.layout.folder_row, groupFrom, groupTo, null, R.layout.file_row, null, null);
+        super(context, groupData, R.layout.folder_row, null, null, null, R.layout.file_row, null, null);
         this.childData = childData;
         this.context = context;
         this.photoMap = photos;
@@ -62,6 +47,29 @@ public class FileListAdapter extends SimpleExpandableListAdapter {
     }
 
     @Override
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        View v = convertView;
+        if(v == null){
+            LayoutInflater vi = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            v = vi.inflate(R.layout.folder_row, null);
+        }
+
+        HashMap<String, String> folderInfo = (HashMap)getGroup(groupPosition);
+
+        TextView name = (TextView) v.findViewById(R.id.folder_name);
+        if(name != null){
+            name.setText(folderInfo.get("NAME"));
+        }
+
+        TextView size = (TextView) v.findViewById(R.id.folder_size);
+        if(size != null){
+            size.setText(folderInfo.get("NUMBER_TAGGED")+ " / " +folderInfo.get("NUMBER_PHOTOS"));
+        }
+
+        return v;
+    }
+
+    @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         View v = convertView;
         if(v == null){
@@ -70,7 +78,6 @@ public class FileListAdapter extends SimpleExpandableListAdapter {
         }
 
         File child = getChild(groupPosition, childPosition);
-
         String path = child.getAbsolutePath();
         Photo photo = photoMap.get(FileHelper.getCorrectedPath(path));
 

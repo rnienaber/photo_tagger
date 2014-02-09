@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,19 +15,25 @@ import android.widget.TextView;
 import com.therandomist.photo_tagger.listener.PhotoGestureListener;
 import com.therandomist.photo_tagger.model.Location;
 import com.therandomist.photo_tagger.model.Photo;
+import com.therandomist.photo_tagger.model.Tag;
 import com.therandomist.photo_tagger.service.FileHelper;
 import com.therandomist.photo_tagger.service.PhotoService;
+import com.therandomist.photo_tagger.service.TagService;
 
-public class PhotoActivity extends Activity{
+import java.util.List;
+
+public class PhotoActivity extends Activity {
 
     private Photo photo = null;
     private PhotoService photoService;
+    private TagService tagService;
     private String photoPath = null;
     private GestureDetectorCompat detector;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.photoService = new PhotoService(getApplicationContext());
+        this.tagService = new TagService(getApplicationContext());
 
         setContentView(R.layout.photo);
         readFromBundle();
@@ -36,7 +43,7 @@ public class PhotoActivity extends Activity{
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event){
+    public boolean onTouchEvent(MotionEvent event) {
         this.detector.onTouchEvent(event);
         return super.onTouchEvent(event);
     }
@@ -48,24 +55,24 @@ public class PhotoActivity extends Activity{
         loadPhoto();
     }
 
-    public void readFromBundle(){
+    public void readFromBundle() {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        photoPath = (String)bundle.get("photoPath");
+        photoPath = (String) bundle.get("photoPath");
     }
 
-    public void loadPhoto(){
+    public void loadPhoto() {
         photo = photoService.getPhoto(photoPath);
         ImageView photoView = (ImageView) findViewById(R.id.photo);
 
-        if(photoView != null){
+        if (photoView != null) {
             BitmapDrawable d = new BitmapDrawable(getResources(), photoPath);
             photoView.setImageDrawable(d);
         }
 
         TextView photoNameView = (TextView) findViewById(R.id.photo_file_name);
-        if(photoNameView != null){
-            photoNameView.setText(photoPath.replace(FileHelper.ROOT+"/", ""));
+        if (photoNameView != null) {
+            photoNameView.setText(photoPath.replace(FileHelper.ROOT + "/", ""));
         }
 
         loadPeopleTags();
@@ -74,38 +81,38 @@ public class PhotoActivity extends Activity{
         loadLocationText();
         loadNotes();
     }
-    
-    public void loadPeopleTags(){
+
+    public void loadPeopleTags() {
         TextView peopleTagsView = (TextView) findViewById(R.id.people_tags_text);
-        if(peopleTagsView != null){
+        if (peopleTagsView != null) {
             peopleTagsView.setText(photo.getPeople());
         }
     }
 
-    public void loadPrintingTags(){
+    public void loadPrintingTags() {
         TextView printingTagsView = (TextView) findViewById(R.id.printing_tags_text);
-        if(printingTagsView != null){
+        if (printingTagsView != null) {
             printingTagsView.setText(photo.getPrinting());
         }
     }
 
-    public void loadKeywordTags(){
+    public void loadKeywordTags() {
         TextView keywordTagsView = (TextView) findViewById(R.id.keyword_tags_text);
-        if(keywordTagsView != null){
+        if (keywordTagsView != null) {
             keywordTagsView.setText(photo.getKeywords());
         }
     }
 
-    public void loadLocationText(){
+    public void loadLocationText() {
         TextView locationTextView = (TextView) findViewById(R.id.location_text);
-        if(locationTextView != null){
+        if (locationTextView != null) {
             locationTextView.setText(photo.getLocationName());
         }
     }
 
-    public void loadNotes(){
+    public void loadNotes() {
         TextView notesTextView = (TextView) findViewById(R.id.notes_text);
-        if(notesTextView != null){
+        if (notesTextView != null) {
             notesTextView.setText(photo.getNotes());
         }
     }
@@ -121,11 +128,11 @@ public class PhotoActivity extends Activity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_people:
-                return handleOptionsItemSelected(PhotoTagListActivity.class, "people");
+                return handleOptionsItemSelected(TagPickerActivity.class, "people");
             case R.id.add_keywords:
-                return handleOptionsItemSelected(PhotoTagListActivity.class, "keywords");
+                return handleOptionsItemSelected(TagPickerActivity.class, "keywords");
             case R.id.set_printing:
-                return handleOptionsItemSelected(PhotoTagListActivity.class, "printing");
+                return handleOptionsItemSelected(TagPickerActivity.class, "printing");
             case R.id.set_location:
                 Intent i = new Intent(getApplicationContext(), ManageCountriesActivity.class);
                 i.putExtra("state", "photo");
@@ -141,33 +148,58 @@ public class PhotoActivity extends Activity{
         }
     }
 
+    private boolean handleOptionsItemSelected(Class klass, String categoryName) {
+        Intent i = new Intent(getApplicationContext(), klass);
+        i.putExtra("categoryName", categoryName);
+
+        List<Tag> selectedTagIds = photo.getSelectedTags(categoryName);
+        int[] ids = Tag.getIds(selectedTagIds);
+
+        i.putExtra("selectedTagIds", ids);
+        startActivityForResult(i, TagPickerActivity.IDENTIFIER);
+        return true;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch(requestCode){
-            case ManageCountriesActivity.IDENTIFIER :
-                if (resultCode == Activity.RESULT_OK){
-                    String name = data.getStringExtra("name");
-                    Double latitude = data.getDoubleExtra("latitude", 0);
-                    Double longitude = data.getDoubleExtra("longitude", 0);
+        Log.i(HomeActivity.APP_NAME, "RETURN CODE " + requestCode);
+        Log.i(HomeActivity.APP_NAME, "RESULT CODE " + resultCode);
+        Log.i(HomeActivity.APP_NAME, "OK IS " + Activity.RESULT_OK);
 
-                    Location location = new Location(name, latitude, longitude, null);
-                    photo.setLocation(location);
-                    photoService.savePhoto(photo);
-                    loadLocationText();
-                }
+        switch (requestCode) {
+            case ManageCountriesActivity.IDENTIFIER:
+                handleReturnFromCountries(resultCode, data);
+                break;
+            case TagPickerActivity.IDENTIFIER:
+                handleReturnFromTagPicker(resultCode, data);
                 break;
         }
     }
 
-    public boolean handleOptionsItemSelected(Class klass, String categoryName){
-        Intent i = new Intent(getApplicationContext(), klass);
-        i.putExtra("categoryName", categoryName);
-        i.putExtra("photoPath", photoPath);
-        startActivity(i);
-        return true;
+    private void handleReturnFromCountries(int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            String name = data.getStringExtra("name");
+            Double latitude = data.getDoubleExtra("latitude", 0);
+            Double longitude = data.getDoubleExtra("longitude", 0);
+
+            Location location = new Location(name, latitude, longitude, null);
+            photo.setLocation(location);
+            photoService.savePhoto(photo);
+            loadLocationText();
+        }
     }
 
+    private void handleReturnFromTagPicker(int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            String categoryName = data.getStringExtra("categoryName");
+            int[] selectedTagIds = data.getIntArrayExtra("selectedTagsIds");
+            List<Tag> selectedTags = tagService.getTagsById(selectedTagIds);
 
+            photo.applyTags(categoryName, selectedTags);
+            photoService.savePhoto(photo);
+
+        }
+    }
 }

@@ -31,7 +31,15 @@ public class HomeActivity extends Activity {
         Button tagPhotosButton = (Button) findViewById(R.id.tag_photos_button);
         tagPhotosButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
-                Intent i = new Intent(view.getContext(), ManagePhotos.class);
+                Intent i = new Intent(view.getContext(), PhotoListActivity.class);
+                startActivity(i);
+            }
+        });
+
+        Button galleryButton = (Button) findViewById(R.id.gallery_button);
+        galleryButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) {
+                Intent i = new Intent(view.getContext(), GalleryListActivity.class);
                 startActivity(i);
             }
         });

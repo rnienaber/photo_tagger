@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_gravity="left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+    <TextView
+            android:id="@+id/folder"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="3sp"
+            android:paddingTop="7sp"
+            android:textSize="15dp"
+            android:text="@string/folder"/>
+
+    <TextView
+            android:id="@+id/folder_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="9sp"
+            android:paddingLeft="3sp"
+            android:layout_toRightOf="@id/folder"
+            android:textSize="12dp" />
+
+    <TextView
+            android:id="@+id/people"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="3sp"
+            android:paddingTop="7sp"
+            android:textSize="15dp"
+            android:text="@string/people"
+            android:layout_below="@id/folder"/>
+
+    <TextView
+            android:id="@+id/people_tags_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="9sp"
+            android:paddingLeft="3sp"
+            android:textSize="12dp"
+            android:layout_toRightOf="@id/people"
+            android:layout_below="@id/folder"/>
+
+    <TextView
+            android:id="@+id/keywords"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="7sp"
+            android:paddingLeft="3sp"
+            android:textSize="15dp"
+            android:text="@string/keywords"
+            android:layout_below="@id/people"/>
+
+    <TextView
+            android:id="@+id/keyword_tags_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="9sp"
+            android:paddingLeft="3sp"
+            android:textSize="12dp"
+            android:layout_toRightOf="@id/keywords"
+            android:layout_below="@id/people"/>
+
+    <TextView
+            android:id="@+id/location"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="7sp"
+            android:paddingLeft="3sp"
+            android:textSize="15dp"
+            android:text="@string/location"
+            android:layout_below="@id/keywords"/>
+
+    <TextView
+            android:id="@+id/location_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="3sp"
+            android:paddingTop="9sp"
+            android:textSize="12dp"
+            android:layout_toRightOf="@id/location"
+            android:layout_below="@id/keywords"/>
+
+    <TextView
+            android:id="@+id/printing"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="7sp"
+            android:paddingLeft="3sp"
+            android:textSize="15dp"
+            android:text="@string/printing"
+            android:layout_below="@id/location"/>
+
+    <TextView
+            android:id="@+id/printing_tags_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="3sp"
+            android:paddingTop="9sp"
+            android:textSize="12dp"
+            android:layout_toRightOf="@id/printing"
+            android:layout_below="@id/location"/>
+
+    <TextView
+            android:id="@+id/notes"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="7sp"
+            android:paddingLeft="3sp"
+            android:textSize="15dp"
+            android:text="@string/notes"
+            android:layout_below="@id/printing"/>
+
+    <TextView
+            android:id="@+id/notes_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="3sp"
+            android:paddingTop="9sp"
+            android:textSize="12dp"
+            android:layout_toRightOf="@id/notes"
+            android:layout_below="@id/printing"/>
+
+</RelativeLayout>

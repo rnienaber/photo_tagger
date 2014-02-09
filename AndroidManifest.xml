@@ -24,15 +24,21 @@
         <activity android:name=".ManageCategoriesActivity"  android:label="Manage Categories and Tags" android:screenOrientation="portrait"/>
         <activity android:name=".AddCategoryActivity" android:label="Manage Categories" android:screenOrientation="portrait"/>
         <activity android:name=".AddTagActivity" android:label="Manage Tags" android:screenOrientation="portrait"/>
-        <activity android:name=".ManagePhotos" android:label="Photos"/>
+        <activity android:name=".PhotoListActivity" android:label="Photos"/>
         <activity android:name=".PhotoActivity" android:label="Photo"/>
-        <activity android:name=".PhotoTagListActivity" android:label="Photo Tags"/>
+        <activity android:name=".TagPickerActivity" android:label="Photo Tags"/>
         <activity android:name=".ManageCountriesActivity" android:label="Manage Countries"/>
         <activity android:name=".AddCountriesActivity" android:label="Add Countries"/>
         <activity android:name=".AddAreaActivity" android:label="Add Areas"/>
         <activity android:name=".ManageAreaActivity" android:label="Manage Areas"/>
         <activity android:name=".LocationActivity" android:label="Add Location"/>
         <activity android:name=".AddNotesActivity" android:label="Add Notes"/>
+        <activity
+                android:name=".GalleryListActivity"
+                android:label="Gallery List"/>
+        <activity
+                android:name=".GalleryPickerActivity"
+                android:label="Gallery Picker"/>
 
 
         <meta-data android:name="com.google.android.gms.version"

@@ -6,6 +6,8 @@ import android.content.Context;
 import android.database.Cursor;
 import com.therandomist.photo_tagger.model.Tag;
 
+import java.util.List;
+
 public class TagRepository extends Repository<Tag>{
 
     public static final String DATABASE_CREATE = "create table tag (_id integer primary key autoincrement, "
@@ -22,6 +24,12 @@ public class TagRepository extends Repository<Tag>{
         Long categoryId = cursor.getLong(cursor.getColumnIndex("category_id"));
 
         return new Tag(id, name, categoryId);
+    }
+
+    public List<Tag> getTags(List<Long> ids){
+        String inClause = getInClauseIds(ids);
+        String where = "_id in ("+inClause+")";
+        return findUsingWhere(where);
     }
 
     @Override

@@ -1,64 +1,65 @@
 package com.therandomist.photo_tagger;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import com.therandomist.photo_tagger.adapter.TagListAdapter;
 import com.therandomist.photo_tagger.model.Category;
-import com.therandomist.photo_tagger.model.Photo;
 import com.therandomist.photo_tagger.model.Tag;
 import com.therandomist.photo_tagger.service.CategoryService;
-import com.therandomist.photo_tagger.service.PhotoService;
 import com.therandomist.photo_tagger.service.TagService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhotoTagListActivity extends ListActivity {
+public class TagPickerActivity extends ListActivity {
+    public static final int IDENTIFIER = 872;
 
     protected TagListAdapter adapter = null;
     protected List<Tag> tags = null;
     protected TagService service;
     protected CategoryService categoryService;
-    protected PhotoService photoService;
 
     protected ListView listView;
 
-    private String photoPath = null;
     private String categoryName = null;
-    private Photo photo = null;
+    private List<Tag> selectedTags = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.simple_list);
+        setContentView(R.layout.tag_picker);
 
         service = new TagService(this);
         categoryService = new CategoryService(this);
-        photoService = new PhotoService(this);
+        selectedTags = new ArrayList<Tag>();
 
         readFromBundle();
-        loadPhoto();
-
         initializeList();
+
+        Button applyButton = (Button) findViewById(R.id.apply_button);
+        applyButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                finishActivity();
+            }
+        });
     }
 
     public void readFromBundle(){
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        photoPath = (String)bundle.get("photoPath");
         categoryName = (String)bundle.get("categoryName");
-    }
-
-    public void loadPhoto(){
-        photo = photoService.getPhoto(photoPath);
+        int[] selectedTagIds = (int[])bundle.get("selectedTagIds");
+        selectedTags = service.getTagsById(selectedTagIds);
     }
 
     public void initializeList(){
         tags = new ArrayList<Tag>();
-        adapter = new TagListAdapter(this, getRowLayout(), tags, photo);
+        adapter = new TagListAdapter(this, R.layout.tag_row, tags, selectedTags);
         setListAdapter(adapter);
         listView = getListView();
         loadTags();
@@ -68,29 +69,12 @@ public class PhotoTagListActivity extends ListActivity {
         super.onListItemClick(l, view, position, id);
         Tag tag = adapter.getItem(position);
 
-        if(categoryName.equalsIgnoreCase("people")){
-            if(photo.hasTag(tag)){
-                photo.removePeople(tag);
-            }else{
-                photo.addPeople(tag);
-            }
-        }
-        else if(categoryName.equalsIgnoreCase("printing")){
-            if(photo.hasTag(tag)){
-                photo.removePrintingTag(tag);
-            }else{
-                photo.addPrintingTag(tag);
-            }
-        }
-        else if(categoryName.equalsIgnoreCase("keywords")){
-            if(photo.hasTag(tag)){
-                photo.removeKeywordTag(tag);
-            }else{
-                photo.addKeywordTag(tag);
-            }
+        if(selectedTags.contains(tag)){
+            selectedTags.remove(tag);
+        }else{
+            selectedTags.add(tag);
         }
 
-        photoService.savePhoto(photo);
         adapter.notifyDataSetChanged();
     }
 
@@ -106,7 +90,15 @@ public class PhotoTagListActivity extends ListActivity {
         adapter.notifyDataSetChanged();
     }
 
-    public int getRowLayout(){
-        return R.layout.tag_row;
+    private void finishActivity(){
+        int[] tagIds = Tag.getIds(selectedTags);
+
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("categoryName", categoryName);
+        resultIntent.putExtra("selectedTagsIds", tagIds);
+
+        setResult(Activity.RESULT_OK, resultIntent);
+
+        finish();
     }
 }

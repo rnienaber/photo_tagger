@@ -1,8 +1,9 @@
 package com.therandomist.photo_tagger.model;
 
+import java.util.Collections;
 import java.util.List;
 
-public class Tag {
+public class Tag implements Comparable{
 
     Long id;
     String name;
@@ -59,6 +60,22 @@ public class Tag {
         return result;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public static int[] getIds(List<Tag> tags){
+        Collections.sort(tags);
+        int[] result = new int[tags.size()];
+
+        int i=0;
+        for(Tag tag : tags){
+            result[i++] = tag.getId().intValue();
+        }
+
+        return result;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -79,5 +96,11 @@ public class Tag {
         result = 31 * result + name.hashCode();
         result = 31 * result + (categoryId != null ? categoryId.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Tag tag = (Tag)o;
+        return this.getName().compareTo(tag.getName());
     }
 }

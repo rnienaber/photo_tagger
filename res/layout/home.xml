@@ -59,6 +59,14 @@
                 android:layout_toRightOf="@id/manage_locations_button"
                 android:text="@string/backup"/>
 
+        <Button
+                android:id="@+id/gallery_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_below="@id/tag_photos_button"
+                android:text="@string/gallery"/>
+
     </RelativeLayout>
 
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.therandomist.photo_tagger.service;
 import android.os.Environment;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,6 +17,19 @@ public class FileHelper {
         File[] files = file.listFiles();
         Arrays.sort(files);
         return Arrays.asList(files);
+    }
+
+    public static List<File> getAllFolders(String path){
+        List<File> files = getAllFiles(path);
+        List<File> folders = new ArrayList<File>();
+        for(File file : files){
+            if(file.isDirectory()) folders.add(file);
+        }
+        return folders;
+    }
+
+    public static boolean hasSubFolders(File folder){
+        return getAllFolders(folder.getAbsolutePath()).size() > 0;
     }
 
     public static String getFolder(String path){

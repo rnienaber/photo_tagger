@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.therandomist.photo_tagger.R;
-import com.therandomist.photo_tagger.model.Photo;
 import com.therandomist.photo_tagger.model.Tag;
 
 import java.util.List;
@@ -17,13 +16,13 @@ public class TagListAdapter extends ArrayAdapter<Tag> {
 
     private List<Tag> tags;
     private int rowLayout;
-    private Photo photo;
+    private List<Tag> selectedTags;
 
-    public TagListAdapter(Context context, int textViewResourceId, List<Tag> items, Photo photo){
+    public TagListAdapter(Context context, int textViewResourceId, List<Tag> items, List<Tag> selectedTags){
         super(context, textViewResourceId, items);
         this.tags = items;
         this.rowLayout = textViewResourceId;
-        this.photo = photo;
+        this.selectedTags = selectedTags;
     }
 
     public void removeAllTags(){
@@ -51,9 +50,9 @@ public class TagListAdapter extends ArrayAdapter<Tag> {
             }
 
             ImageView tagStarImage = (ImageView) view.findViewById(R.id.tag_added);
-            if(tagStarImage != null && photo.hasTag(tag)){
+            if(tagStarImage != null && selectedTags.contains(tag)){
                 tagStarImage.setImageResource(R.drawable.star);
-            }else if (!photo.hasTag(tag)){
+            }else if (!selectedTags.contains(tag)){
                 tagStarImage.setImageBitmap(null);
             }
         }

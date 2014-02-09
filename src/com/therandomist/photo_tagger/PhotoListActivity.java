@@ -13,7 +13,7 @@ import com.therandomist.photo_tagger.service.PhotoService;
 import java.io.File;
 import java.util.*;
 
-public class ManagePhotos extends ExpandableListActivity {
+public class PhotoListActivity extends ExpandableListActivity {
     private static final String NAME = "NAME";
     private static final String NUMBER_PHOTOS = "NUMBER_PHOTOS";
     private static final String NUMBER_TAGGED = "NUMBER_TAGGED";
@@ -47,7 +47,7 @@ public class ManagePhotos extends ExpandableListActivity {
                 photoMap
         );
 
-        setContentView(R.layout.manage_photos);
+        setContentView(R.layout.simple_expandable_list);
         setListAdapter(adapter);
     }
 
@@ -76,7 +76,7 @@ public class ManagePhotos extends ExpandableListActivity {
         photoMap.clear();
 
         for(File file : files){
-            if(!file.isFile()){
+            if(file.isDirectory()){
                 Map<String, String> parentMap = new HashMap<String, String>();
                 groupData.add(parentMap);
                 parentMap.put(NAME, file.getName());
@@ -110,7 +110,7 @@ public class ManagePhotos extends ExpandableListActivity {
                 i.putExtra("photoPath", path);
                 startActivity(i);
             }else{
-                Intent i = new Intent(this, ManagePhotos.class);
+                Intent i = new Intent(this, PhotoListActivity.class);
                 i.putExtra("folder", path);
                 startActivity(i);
             }

@@ -106,6 +106,59 @@ public abstract class Repository<T>{
         }
     }
 
+    protected List<T> findUsingWhere(String where){
+        SQLiteDatabase db = openReadable();
+        Cursor cursor = null;
+        List<T> results = new ArrayList<T>();
+        try{
+            cursor = db.query(true, tableName, null, where, null, null, null, null, null);
+            if (cursor != null) {
+                results = getManyFromCursor(cursor);
+            }
+        }finally {
+            if(cursor != null){
+                cursor.close();
+            }
+            db.close();
+        }
+        return results;
+    }
+
+    protected List<T> getManyFromCursor(Cursor cursor){
+        List<T> results = new ArrayList<T>();
+        cursor.moveToFirst();
+        if(cursor.getCount() > 0 && cursor.moveToFirst()){
+            do{
+                results.add(getFromCursor(cursor));
+            }while(cursor.moveToNext());
+        }
+        return results;
+    }
+
+    protected String getInClause(List<String> items){
+        String inClause = "";
+        for(String item : items){
+            if(inClause.equalsIgnoreCase("")){
+                inClause += " '"+item+"' ";
+            }else{
+                inClause += ", '"+item+"' ";
+            }
+        }
+        return inClause;
+    }
+
+    protected String getInClauseIds(List<Long> ids){
+        String inClause = "";
+        for(Long id : ids){
+            if(inClause.equalsIgnoreCase("")){
+                inClause += " "+id+" ";
+            }else{
+                inClause += ", "+id+" ";
+            }
+        }
+        return inClause;
+    }
+
     public Long insert(T item){
         if (item == null) return null;
         SQLiteDatabase db = openWritable();

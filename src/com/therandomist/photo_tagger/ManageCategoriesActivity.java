@@ -44,7 +44,7 @@ public class ManageCategoriesActivity extends ExpandableListActivity {
                 childData
         );
 
-        setContentView(R.layout.manage_tags_and_categories);
+        setContentView(R.layout.simple_expandable_list);
         setListAdapter(adapter);
     }
 

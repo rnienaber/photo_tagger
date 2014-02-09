@@ -2,6 +2,8 @@ package com.therandomist.photo_tagger.model;
 
 import com.therandomist.photo_tagger.service.FileHelper;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Photo {
@@ -41,10 +43,10 @@ public class Photo {
         this.printingString = printingString;
     }
 
-    public Photo(){
+    public Photo() {
     }
 
-    public void setPath(String path){
+    public void setPath(String path) {
         folder = FileHelper.getFolder(path);
         filename = FileHelper.getFilename(path);
     }
@@ -57,7 +59,7 @@ public class Photo {
         return folder;
     }
 
-    public String getPath(){
+    public String getPath() {
         return FileHelper.getPath(folder, filename);
     }
 
@@ -69,53 +71,53 @@ public class Photo {
         return location != null ? location.getLongitude() : Double.valueOf(0);
     }
 
-    public String getLocationName(){
+    public String getLocationName() {
         return location != null ? location.getName() : "";
     }
 
-    public boolean hasTag(Tag tag){
+    public boolean hasTag(Tag tag) {
         return people.contains(tag) || keywords.contains(tag) || printing.contains(tag);
     }
 
-    public String getPeople(){
+    public String getPeople() {
         return Tag.getString(people);
     }
 
-    public void addPeople(Tag person){
-        if(!people.contains(person)){
+    public void addPeople(Tag person) {
+        if (!people.contains(person)) {
             people.add(person);
         }
     }
 
-    public void removePeople(Tag person){
+    public void removePeople(Tag person) {
         people.remove(person);
     }
 
-    public String getKeywords(){
+    public String getKeywords() {
         return Tag.getString(keywords);
     }
 
-    public String getPrinting(){
+    public String getPrinting() {
         return Tag.getString(printing);
     }
 
-    public void addPrintingTag(Tag tag){
-        if(!printing.contains(tag)){
+    public void addPrintingTag(Tag tag) {
+        if (!printing.contains(tag)) {
             printing.add(tag);
         }
     }
 
-    public void removePrintingTag(Tag tag){
+    public void removePrintingTag(Tag tag) {
         printing.remove(tag);
     }
 
-    public void addKeywordTag(Tag tag){
-        if(!keywords.contains(tag)){
+    public void addKeywordTag(Tag tag) {
+        if (!keywords.contains(tag)) {
             keywords.add(tag);
         }
     }
 
-    public void removeKeywordTag(Tag tag){
+    public void removeKeywordTag(Tag tag) {
         keywords.remove(tag);
     }
 
@@ -167,14 +169,37 @@ public class Photo {
         return location;
     }
 
-    public boolean hasLocation(){
+    public boolean hasLocation() {
         return getLocationName() != null && !getLocationName().equals("");
     }
 
-    public boolean hasData(){
+    public List<Tag> getSelectedTags(String categoryName) {
+        if (categoryName.equalsIgnoreCase("keywords")) {
+            return keywords;
+        } else if (categoryName.equalsIgnoreCase("people")) {
+            return people;
+        } else if (categoryName.equalsIgnoreCase("printing")) {
+            return printing;
+        }
+
+        return new ArrayList<Tag>();
+    }
+
+    public void applyTags(String categoryName, List<Tag> selectedTags) {
+        Collections.sort(selectedTags);
+        if (categoryName.equalsIgnoreCase("people")) {
+            people = selectedTags;
+        } else if (categoryName.equalsIgnoreCase("printing")) {
+            printing = selectedTags;
+        } else if (categoryName.equalsIgnoreCase("keywords")) {
+            keywords = selectedTags;
+        }
+    }
+
+    public boolean hasData() {
         boolean hasData = false;
 
-        if(getKeywordString().length() > 0 || getPeopleString().length() > 0 || getPrintingString().length() > 0 || hasLocation()){
+        if (getKeywordString().length() > 0 || getPeopleString().length() > 0 || getPrintingString().length() > 0 || hasLocation()) {
             hasData = true;
         }
 

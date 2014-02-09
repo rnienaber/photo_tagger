@@ -27,4 +27,8 @@
     <string name="save_and_apply">Save and Apply</string>
     <string name="notes">Notes</string>
     <string name="add_notes">Add notes</string>
+    <string name="view">view</string>
+    <string name="gallery">Gallery</string>
+    <string name="folder">Folder</string>
+    <string name="apply_tags">Apply Tags</string>
 </resources>

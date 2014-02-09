@@ -53,7 +53,7 @@ public class ManageCountriesActivity extends ExpandableListActivity {
                 childData
         );
 
-        setContentView(R.layout.manage_countries);
+        setContentView(R.layout.simple_expandable_list);
         setListAdapter(adapter);
     }
 

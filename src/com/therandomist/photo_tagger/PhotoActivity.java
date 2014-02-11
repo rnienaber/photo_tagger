@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -152,8 +151,8 @@ public class PhotoActivity extends Activity {
         Intent i = new Intent(getApplicationContext(), klass);
         i.putExtra("categoryName", categoryName);
 
-        List<Tag> selectedTagIds = photo.getSelectedTags(categoryName);
-        int[] ids = Tag.getIds(selectedTagIds);
+        List<Tag> selectedTags = photo.getSelectedTags(categoryName);
+        int[] ids = Tag.getIds(selectedTags);
 
         i.putExtra("selectedTagIds", ids);
         startActivityForResult(i, TagPickerActivity.IDENTIFIER);
@@ -163,10 +162,6 @@ public class PhotoActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        Log.i(HomeActivity.APP_NAME, "RETURN CODE " + requestCode);
-        Log.i(HomeActivity.APP_NAME, "RESULT CODE " + resultCode);
-        Log.i(HomeActivity.APP_NAME, "OK IS " + Activity.RESULT_OK);
 
         switch (requestCode) {
             case ManageCountriesActivity.IDENTIFIER:

@@ -6,7 +6,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -75,7 +74,6 @@ public class HomeActivity extends Activity {
             Photo photo = photoService.getHomePagePhoto();
             if(photo != null){
                 String photoPath = photo.getPath();
-                Log.i(HomeActivity.APP_NAME, "Loading: "+photoPath);
                 BitmapDrawable d = new BitmapDrawable(getResources(), FileHelper.getPathOnDevice(photo.getFolder(), photo.getFilename()));
                 photoView.setImageDrawable(d);
             }

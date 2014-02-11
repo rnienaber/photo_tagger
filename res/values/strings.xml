@@ -31,4 +31,5 @@
     <string name="gallery">Gallery</string>
     <string name="folder">Folder</string>
     <string name="apply_tags">Apply Tags</string>
+    <string name="show_photos">Show Photos</string>
 </resources>

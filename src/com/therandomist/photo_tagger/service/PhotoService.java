@@ -21,6 +21,10 @@ public class PhotoService {
         tagRepository = new TagRepository(context);
     }
 
+    public List<Photo> getGalleryPhotos(Map<String, List<String>> tagMap, String folder){
+        return repository.findByTags(tagMap, folder);
+    }
+
     public Photo getPhoto(String path){
         Photo photo = repository.findByPath(path);
 

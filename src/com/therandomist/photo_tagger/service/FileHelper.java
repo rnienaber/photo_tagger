@@ -53,6 +53,10 @@ public class FileHelper {
         return STORAGE_ROOT + getPath(folder, filename);
     }
 
+    public static String getPathOnDevice(String path){
+        return STORAGE_ROOT + path;
+    }
+
     public static String getCorrectedPath(String path){
         return path.replace(STORAGE_ROOT, "");
     }

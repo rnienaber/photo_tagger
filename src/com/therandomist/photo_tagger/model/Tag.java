@@ -65,15 +65,20 @@ public class Tag implements Comparable{
     }
 
     public static int[] getIds(List<Tag> tags){
-        Collections.sort(tags);
-        int[] result = new int[tags.size()];
 
-        int i=0;
-        for(Tag tag : tags){
-            result[i++] = tag.getId().intValue();
+        if(tags != null){
+            Collections.sort(tags);
+            int[] result = new int[tags.size()];
+
+            int i=0;
+            for(Tag tag : tags){
+                result[i++] = tag.getId().intValue();
+            }
+
+            return result;
+        }else{
+            return new int[0];
         }
-
-        return result;
     }
 
     @Override

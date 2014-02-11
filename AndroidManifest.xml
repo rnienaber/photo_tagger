@@ -39,6 +39,9 @@
         <activity
                 android:name=".GalleryPickerActivity"
                 android:label="Gallery Picker"/>
+        <activity
+                android:name=".GalleryActivity"
+                android:label="Gallery"/>
 
 
         <meta-data android:name="com.google.android.gms.version"

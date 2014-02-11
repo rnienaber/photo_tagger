@@ -17,6 +17,8 @@ import java.util.Map;
 public class PhotoRepository extends Repository<Photo>{
 
     public static final String PRINTING = "printing";
+    public static final String PEOPLE = "people";
+    public static final String KEYWORDS = "keywords";
 
     public static final String DATABASE_CREATE = "create table photo (_id integer primary key autoincrement, "
             + " filename text not null,"
@@ -34,7 +36,10 @@ public class PhotoRepository extends Repository<Photo>{
     }
 
     public List<Photo> findByTags(Map<String, List<String>> tagList){
-        Log.i(HomeActivity.APP_NAME, "Trying to fetch photos by tags");
+        return findByTags(tagList, null);
+    }
+
+    public List<Photo> findByTags(Map<String, List<String>> tagList, String folder){
         String where = "";
 
         for(Map.Entry<String, List<String>> entry : tagList.entrySet()){
@@ -42,7 +47,7 @@ public class PhotoRepository extends Repository<Photo>{
             List<String> tagNames = entry.getValue();
 
             for(String tag : tagNames){
-                String clause = tagType +" like '%"+tag+"%' ";
+                String clause = tagType +" like '%"+tag.trim()+"%' ";
 
                 if(where.equals("")){
                     where = clause;
@@ -52,14 +57,28 @@ public class PhotoRepository extends Repository<Photo>{
             }
         }
 
+        if(folder != null && !folder.equalsIgnoreCase("")){
+            String clause = "folder like '%"+folder+"%'";
+            if(where.equals("")){
+                where = clause;
+            }else{
+                where += " AND "+clause;
+            }
+        }
+
+        String filenameClause = " filename like '%.jpg'";
+        if(where.equals("")){
+            where = filenameClause;
+        }else{
+            where += " AND "+filenameClause;
+        }
+
         return findUsingWhere(where);
     }
 
     public Photo findByPath(String path){
         String folder = FileHelper.getFolder(path);
         String filename = FileHelper.getFilename(path);
-
-        Log.i(HomeActivity.APP_NAME, "Trying to fetch photo: "+folder+" "+filename);
 
         String where = "folder='" + folder + "' AND filename='" +filename +"'";
 

@@ -107,6 +107,7 @@ public abstract class Repository<T>{
     }
 
     protected List<T> findUsingWhere(String where){
+        Log.i(HomeActivity.APP_NAME, "Find using where: "+where);
         SQLiteDatabase db = openReadable();
         Cursor cursor = null;
         List<T> results = new ArrayList<T>();

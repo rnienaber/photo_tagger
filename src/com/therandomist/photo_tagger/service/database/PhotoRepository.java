@@ -82,7 +82,12 @@ public class PhotoRepository extends Repository<Photo>{
 
         String where = "folder='" + folder + "' AND filename='" +filename +"'";
 
-        return findUsingWhere(where).get(0);
+        List<Photo> results = findUsingWhere(where);
+        if(results.size() > 0){
+            return results.get(0);
+        }else{
+            return null;
+        }
     }
 
     protected Photo getFromCursor(Cursor cursor){

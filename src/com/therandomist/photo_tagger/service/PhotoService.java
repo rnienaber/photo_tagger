@@ -81,7 +81,8 @@ public class PhotoService {
 
         if(nameList.length > 0){
             for(String name : nameList){
-                tags.add(getTag(name));
+                Tag t = getTag(name);
+                if(t != null) tags.add(t);
             }
         }
         return tags;

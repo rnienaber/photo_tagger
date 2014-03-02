@@ -65,7 +65,6 @@ public class Tag implements Comparable{
     }
 
     public static int[] getIds(List<Tag> tags){
-
         if(tags != null){
             Collections.sort(tags);
             int[] result = new int[tags.size()];

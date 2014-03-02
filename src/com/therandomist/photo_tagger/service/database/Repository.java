@@ -112,7 +112,7 @@ public abstract class Repository<T>{
         Cursor cursor = null;
         List<T> results = new ArrayList<T>();
         try{
-            cursor = db.query(true, tableName, null, where, null, null, null, null, null);
+            cursor = db.query(true, tableName, null, where, null, null, null, defaultOrderBy, null);
             if (cursor != null) {
                 results = getManyFromCursor(cursor);
             }

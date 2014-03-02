@@ -92,7 +92,7 @@ public class PhotoListActivity extends ExpandableListActivity {
                     if(photo.hasData() && ( photo.isDeleted() || photo.hasLocation())) completed++;
                 }
 
-                parentMap.put(NUMBER_PHOTOS, photos.size()+"");
+                parentMap.put(NUMBER_PHOTOS, file.listFiles().length+"");
                 parentMap.put(NUMBER_TAGGED, completed+"");
             }
         }

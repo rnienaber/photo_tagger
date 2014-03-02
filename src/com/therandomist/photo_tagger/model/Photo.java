@@ -199,7 +199,7 @@ public class Photo {
     public boolean hasData() {
         boolean hasData = false;
 
-        if (getKeywordString().length() > 0 || getPeopleString().length() > 0 || getPrintingString().length() > 0 || hasLocation()) {
+        if (getKeywordString().length() > 0 || getPeopleString().length() > 0 || getPrintingString().length() > 0) {
             hasData = true;
         }
 

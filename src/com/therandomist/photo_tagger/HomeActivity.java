@@ -63,7 +63,7 @@ public class HomeActivity extends Activity {
         Button backupButton = (Button) findViewById(R.id.backup_database_button);
         backupButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
-                emailDatabaseFile();
+                backupFile();
             }
         });
 
@@ -73,14 +73,13 @@ public class HomeActivity extends Activity {
             PhotoService photoService = new PhotoService(getApplicationContext());
             Photo photo = photoService.getHomePagePhoto();
             if(photo != null){
-                String photoPath = photo.getPath();
                 BitmapDrawable d = new BitmapDrawable(getResources(), FileHelper.getPathOnDevice(photo.getFolder(), photo.getFilename()));
                 photoView.setImageDrawable(d);
             }
         }
     }
 
-    public void emailDatabaseFile(){
+    public void backupFile(){
         String PATH =  Environment.getExternalStorageDirectory()+ DatabaseHelper.getDBFilename();
 
         Uri uri = Uri.parse("file://"+PATH);
